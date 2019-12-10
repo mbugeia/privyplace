@@ -1,0 +1,35 @@
+---
+
+- name: Copy file with owner and permissions
+  synchronize:
+    src: 00-kube-prometheus
+    dest: "{{ remote_manifests_path }}"
+    delete: yes
+    recursive: true
+
+- name: Copy file with owner and permissions
+  synchronize:
+    src: 01-kube-prometheus
+    dest: "{{ remote_manifests_path }}"
+    delete: yes
+    recursive: true
+
+- name: ingress {{ app }}
+  template:
+    src: ../shared-files/templates/ingress.yaml
+    dest: "{{ remote_manifests_path }}/05-{{ namespace }}-ingress-{{ app }}.yaml"
+  vars:
+    ingress_namespace: "{{ namespace }}"
+    ingress_domain: "{{ grafana_domain }}"
+    serviceport: 3000
+    app: grafana
+
+- name: ingress {{ app }}
+  template:
+    src: ../shared-files/templates/ingress.yaml
+    dest: "{{ remote_manifests_path }}/05-{{ namespace }}-ingress-{{ app }}.yaml"
+  vars:
+    ingress_namespace: "{{ namespace }}"
+    ingress_domain: "{{ prometheus_domain }}"
+    serviceport: 9090
+    app: prometheus-k3s

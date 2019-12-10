@@ -1,3 +1,4 @@
 *.retry
 inventory
 group_vars/*
+kube-prometheus
