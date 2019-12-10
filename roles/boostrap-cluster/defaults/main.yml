@@ -1,0 +1,4 @@
+---
+letsencrypt_email: "toto@example.com"
+letsencrypt_server_url: "https://acme-staging-v02.api.letsencrypt.org/directory"
+remote_manifests_path: "/var/lib/rancher/k3s/server/manifests/"

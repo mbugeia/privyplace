@@ -1,0 +1,22 @@
+---
+# Ingress
+- name: ingress mandatory
+  template:
+    src: ingress-mandatory.yaml
+    dest: "{{ remote_manifests_path }}/00-ingress-mandatory.yaml"
+
+- name: ingress service
+  template:
+    src: ingress-service.yaml
+    dest: "{{ remote_manifests_path }}/01-ingress-service.yaml"
+
+# Cert Manager
+- name: certmanager
+  template:
+    src: cert-manager.yaml
+    dest: "{{ remote_manifests_path }}/03-cert-manager.yaml"
+
+- name: letsencrypt issuer
+  template:
+    src: letsencrypt-issuer.yaml
+    dest: "{{ remote_manifests_path }}/04-letsencrypt-issuer.yaml"

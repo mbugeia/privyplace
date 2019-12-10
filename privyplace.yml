@@ -1,0 +1,6 @@
+---
+- name: deploy
+  hosts: all
+  roles:
+  - boostrap-cluster
+
