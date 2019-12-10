@@ -2,5 +2,5 @@
 - name: deploy
   hosts: all
   roles:
+  - k3s
   - boostrap-cluster
-
