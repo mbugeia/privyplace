@@ -57,14 +57,14 @@
   file:
     path: "{{ ansible_env.HOME }}/.kube"
     state: directory
-    owner: "{{ ansible_user }}"
+    owner: "{{ ansible_env.USER }}"
 
 - name: Copy config file to user home directory
   copy:
     src: /etc/rancher/k3s/k3s.yaml
     dest: "{{ ansible_env.HOME }}/.kube/config"
     remote_src: yes
-    owner: "{{ ansible_user }}"
+    owner: "{{ ansible_env.USER }}"
 
 - name: Replace https://localhost:6443 by https://master-pi:6443
   replace:
