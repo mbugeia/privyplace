@@ -1,0 +1,23 @@
+---
+- name: Install zsh
+  apt:
+    name: zsh
+    state: present
+
+- name: Get zsh path
+  command: which zsh
+  register: zsh_path
+  changed_when: no
+
+- name: Switch to zsh
+  user:
+    name: "{{ ansible_env.USER }}"
+    shell: "{{ zsh_path.stdout }}"
+
+- name: Update {{ ansible_env.USER }} .zshrc
+  template:
+    src: "zshrc"
+    dest: "{{ ansible_env.HOME }}/.zshrc"
+    owner: "{{ ansible_env.USER }}"
+    group: "{{ ansible_env.USER }}"
+    mode: 0644
