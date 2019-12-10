@@ -1,20 +1,18 @@
 ---
 
-- name: Copy file with owner and permissions
-  synchronize:
-    src: 00-kube-prometheus
-    dest: "{{ remote_manifests_path }}"
-    delete: yes
-    recursive: true
+- name: "k8s ensure kube-prometheus setup ressources"
+  k8s:
+    state: present
+    definition: "{{ lookup('file', item) }}"
+  with_fileglob: '00-kube-prometheus/*'
 
-- name: Copy file with owner and permissions
-  synchronize:
-    src: 01-kube-prometheus
-    dest: "{{ remote_manifests_path }}"
-    delete: yes
-    recursive: true
+- name: "k8s ensure kube-prometheus workload ressources"
+  k8s:
+    state: present
+    definition: "{{ lookup('file', item) }}"
+  with_fileglob: '01-kube-prometheus/*'
 
-- name: ingress {{ app }}
+- name: "k8s ensure {{ namespace }}/ingress/{{ app }}"
   k8s:
     state: present
     definition: "{{ lookup('template', '../k8s_templates/ingress.yaml') }}"
@@ -24,7 +22,7 @@
     serviceport: 3000
     app: grafana
 
-- name: ingress {{ app }}
+- name: "k8s ensure {{ namespace }}ingress {{ app }}"
   k8s:
     state: present
     definition: "{{ lookup('template', '../k8s_templates/ingress.yaml') }}"
