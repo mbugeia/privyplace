@@ -1,7 +1,8 @@
 ---
 - name: deploy
-  hosts: all
+  hosts: master
   roles:
+  - packages
   - k3s
   - zsh
   - boostrap-cluster

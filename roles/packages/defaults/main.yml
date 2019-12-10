@@ -1,0 +1,9 @@
+---
+
+apt_install_packages:
+- curl
+- htop
+- python3-pip
+
+pip3_install_packages:
+- openshift

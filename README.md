@@ -4,7 +4,7 @@
 
 ```
 apt install rsync
-pip3 install ansible
+pip3 install ansible PyYAML openshift
 ```
 
 ## Usage

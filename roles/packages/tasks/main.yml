@@ -1,0 +1,13 @@
+---
+- name: Install apt packages on system
+  apt:
+    update_cache: true
+    cache_valid_time: 3600
+    name: "{{ apt_install_packages }}"
+    state: present
+
+- name: Install pip3 packages on system
+  pip:
+    name: "{{ pip3_install_packages }}"
+    state: present
+    executable: pip3

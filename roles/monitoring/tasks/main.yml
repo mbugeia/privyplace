@@ -15,9 +15,9 @@
     recursive: true
 
 - name: ingress {{ app }}
-  template:
-    src: ../shared-files/templates/ingress.yaml
-    dest: "{{ remote_manifests_path }}/05-{{ namespace }}-ingress-{{ app }}.yaml"
+  k8s:
+    state: present
+    definition: "{{ lookup('template', '../k8s_templates/ingress.yaml') }}"
   vars:
     ingress_namespace: "{{ namespace }}"
     ingress_domain: "{{ grafana_domain }}"
@@ -25,9 +25,9 @@
     app: grafana
 
 - name: ingress {{ app }}
-  template:
-    src: ../shared-files/templates/ingress.yaml
-    dest: "{{ remote_manifests_path }}/05-{{ namespace }}-ingress-{{ app }}.yaml"
+  k8s:
+    state: present
+    definition: "{{ lookup('template', '../k8s_templates/ingress.yaml') }}"
   vars:
     ingress_namespace: "{{ namespace }}"
     ingress_domain: "{{ prometheus_domain }}"
