@@ -11,6 +11,7 @@
     dest: "{{ remote_manifests_path }}/01-ingress-service.yaml"
 
 # Cert Manager
+# https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager-no-webhook.yaml
 - name: certmanager
   template:
     src: cert-manager.yaml

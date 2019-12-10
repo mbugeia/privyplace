@@ -5458,19 +5458,6 @@ metadata:
     helm.sh/chart: cert-manager-v0.12.0
 
 ---
-# Source: cert-manager/templates/webhook-serviceaccount.yaml
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: cert-manager-webhook
-  namespace: "cert-manager"
-  labels:
-    app: webhook
-    app.kubernetes.io/name: webhook
-    app.kubernetes.io/instance: cert-manager
-    app.kubernetes.io/managed-by: Tiller
-    helm.sh/chart: cert-manager-v0.12.0
----
 # Source: cert-manager/templates/cainjector-rbac.yaml
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
@@ -5565,80 +5552,6 @@ subjects:
     kind: ServiceAccount
     name: cert-manager-cainjector
     namespace: cert-manager
----
-# Source: cert-manager/templates/webhook-rbac.yaml
-### Webhook ###
----
-# apiserver gets the auth-delegator role to delegate auth decisions to
-# the core apiserver
-apiVersion: rbac.authorization.k8s.io/v1beta1
-kind: ClusterRoleBinding
-metadata:
-  name: cert-manager-webhook:auth-delegator
-  labels:
-    app: webhook
-    app.kubernetes.io/name: webhook
-    app.kubernetes.io/instance: cert-manager
-    app.kubernetes.io/managed-by: Tiller
-    helm.sh/chart: cert-manager-v0.12.0
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: system:auth-delegator
-subjects:
-- apiGroup: ""
-  kind: ServiceAccount
-  name: cert-manager-webhook
-  namespace: cert-manager
-
----
-
-# apiserver gets the ability to read authentication. This allows it to
-# read the specific configmap that has the requestheader-* entries to
-# api agg
-apiVersion: rbac.authorization.k8s.io/v1beta1
-kind: RoleBinding
-metadata:
-  name: cert-manager-webhook:webhook-authentication-reader
-  namespace: kube-system
-  labels:
-    app: webhook
-    app.kubernetes.io/name: webhook
-    app.kubernetes.io/instance: cert-manager
-    app.kubernetes.io/managed-by: Tiller
-    helm.sh/chart: cert-manager-v0.12.0
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: extension-apiserver-authentication-reader
-subjects:
-- apiGroup: ""
-  kind: ServiceAccount
-  name: cert-manager-webhook
-  namespace: cert-manager
-
----
-
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: cert-manager-webhook:webhook-requester
-  labels:
-    app: webhook
-    app.kubernetes.io/name: webhook
-    app.kubernetes.io/instance: cert-manager
-    app.kubernetes.io/managed-by: Tiller
-    helm.sh/chart: cert-manager-v0.12.0
-rules:
-- apiGroups:
-  - admission.cert-manager.io
-  resources:
-  - certificates
-  - certificaterequests
-  - issuers
-  - clusterissuers
-  verbs:
-  - create
 ---
 # Source: cert-manager/templates/rbac.yaml
 apiVersion: rbac.authorization.k8s.io/v1beta1
@@ -6088,30 +6001,6 @@ spec:
     app.kubernetes.io/instance: cert-manager
 
 ---
-# Source: cert-manager/templates/webhook-service.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: cert-manager-webhook
-  namespace: "cert-manager"
-  labels:
-    app: webhook
-    app.kubernetes.io/name: webhook
-    app.kubernetes.io/instance: cert-manager
-    app.kubernetes.io/managed-by: Tiller
-    helm.sh/chart: cert-manager-v0.12.0
-spec:
-  type: ClusterIP
-  ports:
-  - name: https
-    port: 443
-    targetPort: 10250
-  selector:
-    app: webhook
-    app.kubernetes.io/name: webhook
-    app.kubernetes.io/instance: cert-manager
-    app.kubernetes.io/managed-by: Tiller
----
 # Source: cert-manager/templates/cainjector-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -6221,106 +6110,6 @@ spec:
             
 
 ---
-# Source: cert-manager/templates/webhook-deployment.yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: cert-manager-webhook
-  namespace: "cert-manager"
-  labels:
-    app: webhook
-    app.kubernetes.io/name: webhook
-    app.kubernetes.io/instance: cert-manager
-    app.kubernetes.io/managed-by: Tiller
-    helm.sh/chart: cert-manager-v0.12.0
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: webhook
-      app.kubernetes.io/name: webhook
-      app.kubernetes.io/instance: cert-manager
-      app.kubernetes.io/managed-by: Tiller
-  template:
-    metadata:
-      labels:
-        app: webhook
-        app.kubernetes.io/name: webhook
-        app.kubernetes.io/instance: cert-manager
-        app.kubernetes.io/managed-by: Tiller
-        helm.sh/chart: cert-manager-v0.12.0
-      annotations:
-    spec:
-      serviceAccountName: cert-manager-webhook
-      containers:
-        - name: cert-manager
-          image: "quay.io/jetstack/cert-manager-webhook:v0.12.0"
-          imagePullPolicy: IfNotPresent
-          args:
-          - --v=2
-          - --secure-port=10250
-          - --tls-cert-file=/certs/tls.crt
-          - --tls-private-key-file=/certs/tls.key
-          livenessProbe:
-            httpGet:
-              path: /livez
-              port: 6080
-              scheme: HTTP
-          readinessProbe:
-            httpGet:
-              path: /healthz
-              port: 6080
-              scheme: HTTP
-          env:
-          - name: POD_NAMESPACE
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.namespace
-          resources:
-            {}
-            
-          volumeMounts:
-          - name: certs
-            mountPath: /certs
-      volumes:
-      - name: certs
-        secret:
-          secretName: cert-manager-webhook-tls
----
-# Source: cert-manager/templates/webhook-mutating-webhook.yaml
-apiVersion: admissionregistration.k8s.io/v1beta1
-kind: MutatingWebhookConfiguration
-metadata:
-  name: cert-manager-webhook
-  labels:
-    app: webhook
-    app.kubernetes.io/name: webhook
-    app.kubernetes.io/instance: cert-manager
-    app.kubernetes.io/managed-by: Tiller
-    helm.sh/chart: cert-manager-v0.12.0
-  annotations:
-    cert-manager.io/inject-ca-from-secret: "cert-manager/cert-manager-webhook-tls"
-webhooks:
-  - name: webhook.cert-manager.io
-    rules:
-      - apiGroups:
-          - "cert-manager.io"
-          - "acme.cert-manager.io"
-        apiVersions:
-          - v1alpha2
-        operations:
-          - CREATE
-          - UPDATE
-        resources:
-          - "*/*"
-    failurePolicy: Fail
-    sideEffects: None
-    clientConfig:
-      service:
-        name: cert-manager-webhook
-        namespace: "cert-manager"
-        path: /mutate
----
 # Source: cert-manager/templates/cainjector-psp-clusterrole.yaml
 
 
@@ -6349,6 +6138,12 @@ webhooks:
 
 
 ---
+# Source: cert-manager/templates/webhook-deployment.yaml
+
+---
+# Source: cert-manager/templates/webhook-mutating-webhook.yaml
+
+---
 # Source: cert-manager/templates/webhook-psp-clusterrole.yaml
  
 
@@ -6361,46 +6156,13 @@ webhooks:
 
 
 ---
+# Source: cert-manager/templates/webhook-rbac.yaml
+
+---
+# Source: cert-manager/templates/webhook-service.yaml
+
+---
+# Source: cert-manager/templates/webhook-serviceaccount.yaml
+
+---
 # Source: cert-manager/templates/webhook-validating-webhook.yaml
-apiVersion: admissionregistration.k8s.io/v1beta1
-kind: ValidatingWebhookConfiguration
-metadata:
-  name: cert-manager-webhook
-  labels:
-    app: webhook
-    app.kubernetes.io/name: webhook
-    app.kubernetes.io/instance: cert-manager
-    app.kubernetes.io/managed-by: Tiller
-    helm.sh/chart: cert-manager-v0.12.0
-  annotations:
-    cert-manager.io/inject-ca-from-secret: "cert-manager/cert-manager-webhook-tls"
-webhooks:
-  - name: webhook.cert-manager.io
-    namespaceSelector:
-      matchExpressions:
-      - key: "cert-manager.io/disable-validation"
-        operator: "NotIn"
-        values:
-        - "true"
-      - key: "name"
-        operator: "NotIn"
-        values:
-        - cert-manager
-    rules:
-      - apiGroups:
-          - "cert-manager.io"
-          - "acme.cert-manager.io"
-        apiVersions:
-          - v1alpha2
-        operations:
-          - CREATE
-          - UPDATE
-        resources:
-          - "*/*"
-    failurePolicy: Fail
-    sideEffects: None
-    clientConfig:
-      service:
-        name: cert-manager-webhook
-        namespace: "cert-manager"
-        path: /mutate
