@@ -17,8 +17,18 @@
     state: present
     definition: "{{ lookup('template', 'cert-manager.yaml') }}"
 
-- name: letsencrypt issuer
+- name: letsencrypt staging issuer
   k8s:
     state: present
     definition: "{{ lookup('template', 'letsencrypt-issuer.yaml') }}"
+  vars:
+    letsencrypt_env: "staging"
+    letsencrypt_server_url: "{{ letsencrypt_server_url_staging }}"
 
+- name: letsencrypt prod issuer
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'letsencrypt-issuer.yaml') }}"
+  vars:
+    letsencrypt_env: "prod"
+    letsencrypt_server_url: "{{ letsencrypt_server_url_staging }}"

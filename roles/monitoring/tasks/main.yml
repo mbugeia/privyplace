@@ -21,6 +21,8 @@
     ingress_domain: "{{ grafana_domain }}"
     serviceport: 3000
     app: grafana
+  tags:
+  - ingress
 
 - name: "k8s ensure {{ namespace }}ingress {{ app }}"
   k8s:
@@ -31,3 +33,5 @@
     ingress_domain: "{{ prometheus_domain }}"
     serviceport: 9090
     app: prometheus-k3s
+  tags:
+  - ingress
