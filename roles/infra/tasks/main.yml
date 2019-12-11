@@ -6,6 +6,8 @@
     definition: "{{ lookup('template', '../k8s_templates/namespace.yaml') }}"
   vars:
     namespace_name: "{{ namespace }}"
+  tags:
+  - namespace
 
 - name: "{{ namespace }}/configmap/sshd-authorized-keys"
   k8s:
@@ -17,6 +19,8 @@
     configmap_name: sshd-authorized-keys
     configmap_filename: authorized_keys
     configmap_content: "{{ authorized_keys }}"
+  tags:
+  - configmap
 
 - name: "{{ namespace }}/service/{{ app }}"
   k8s:
@@ -29,6 +33,8 @@
     serviceport: 22
     targetport: 22
     nodeport: "{{ sshd_nodeport }}"
+  tags:
+  - service
 
 - name: "{{ namespace }}/deployment/{{ app }}"
   k8s:
@@ -39,6 +45,8 @@
     deployment_namespace: "{{ namespace }}"
     deployment_name: "{{ app }}"
     deployment_replicas: 1
+  tags:
+  - deployment
 
 - name: Wait for port {{ sshd_nodeport }} to become open on the host
   wait_for:
