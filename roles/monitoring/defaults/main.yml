@@ -2,4 +2,3 @@
 grafana_domain: "monitoring.{{ main_domain }}"
 prometheus_domain: "prometheus.{{ main_domain }}"
 namespace: "monitoring"
-remote_manifests_path: "/var/lib/rancher/k3s/server/manifests/"
