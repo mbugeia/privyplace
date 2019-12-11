@@ -1,0 +1,27 @@
+---
+namespace: "infra"
+
+sshd_image: privyplace/sshd:latest
+sshd_nodeport: 30000
+authorized_keys: ""
+
+deployment_spec: |
+  containers:
+  - name: sshd
+    image: {{ sshd_image }}
+    imagePullPolicy: Always
+    ports:
+    - containerPort: 22
+      protocol: TCP
+    volumeMounts:
+    - name: sshd-authorized-keys
+      mountPath: /root/.ssh/authorized_keys
+      subPath: authorized_keys
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+  volumes:
+  - name: sshd-authorized-keys
+    configMap:
+      defaultMode: 420
+      name: sshd-authorized-keys
