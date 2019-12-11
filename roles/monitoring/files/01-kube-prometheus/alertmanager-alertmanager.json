@@ -20,6 +20,6 @@
          "runAsUser": 1000
       },
       "serviceAccountName": "alertmanager-main",
-      "version": "v0.19.0"
+      "version": "v0.20.0"
    }
 }

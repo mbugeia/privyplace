@@ -24,7 +24,7 @@
          "spec": {
             "containers": [
                {
-                  "image": "grafana/grafana:6.5.1",
+                  "image": "grafana/grafana:6.5.2",
                   "name": "grafana",
                   "ports": [
                      {

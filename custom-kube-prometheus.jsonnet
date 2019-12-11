@@ -10,13 +10,13 @@ local kp =
     _config+:: {
       namespace: 'monitoring',
       versions+:: {
-        alertmanager: "v0.19.0",
+        alertmanager: "v0.20.0",
         nodeExporter: "v0.18.1",
         kubeStateMetrics: "v1.8.0",
         kubeRbacProxy: "v0.4.1",
         prometheusOperator: "v0.34.0",
         prometheus: "v2.14.0",
-        grafana: '6.5.1',
+        grafana: '6.5.2',
       },
 
       imageRepos+:: {
