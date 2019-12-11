@@ -2,8 +2,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ configmap_name }}
-  namespace: {{ configmap_namespace }}
+  name: {{ configmap_name | default(app)}}
+  namespace: {{ target_namespace }}
 data:
   {{ configmap_filename }}: |
     {{ configmap_content | indent(width=4) }}

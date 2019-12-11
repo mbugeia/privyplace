@@ -2,18 +2,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ deployment_name }}
-  namespace: {{ deployment_namespace }}
+  name: {{ deployment_name | default(app)}}
+  namespace: {{ target_namespace }}
   labels:
-    app: {{ deployment_name }}
+    app: {{ deployment_name | default(app)}}
 spec:
   replicas: {{ deployment_replicas }}
   selector:
     matchLabels:
-      app: {{ deployment_name }}
+      app: {{ deployment_name | default(app)}}
   template:
     metadata:
       labels:
-        app: {{ deployment_name }}
+        app: {{ deployment_name | default(app)}}
     spec:
       {{ deployment_spec | indent(width=6) }}

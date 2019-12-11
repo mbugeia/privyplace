@@ -2,16 +2,16 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ service_name }}
-  namespace: {{ service_namespace }}
+  name: {{ service_name | default(app)}}
+  namespace: {{ target_namespace }}
 spec:
   ports:
   - port: {{ serviceport }}
     targetPort: {{ targetport }}
     protocol: {{ protocol | default('TCP')}}
-{% if nodeport | default('None') != "None" %}
+{% if nodeport is defined %}
     nodePort: {{ nodeport }}
 {% endif %}
   selector:
-    app: {{ app }}
-  type: {% if nodeport | default('None') != "None" %}NodePort{% else %}ClusterIP{% endif %}
+    app: {{ deployment_name | default(app)}}
+  type: {% if nodeport is defined  %}NodePort{% else %}ClusterIP{% endif %}

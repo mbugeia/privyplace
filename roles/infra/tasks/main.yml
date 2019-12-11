@@ -5,50 +5,43 @@
     state: present
     definition: "{{ lookup('template', '../k8s_templates/namespace.yaml') }}"
   vars:
-    namespace_name: "{{ namespace }}"
+    target_namespace: "{{ namespace }}"
   tags:
   - namespace
 
-- name: "{{ namespace }}/configmap/sshd-authorized-keys"
-  k8s:
-    state: present
-    definition: "{{ lookup('template', '../k8s_templates/configmap.yaml') }}"
+- name: ansible-executor
+  block:
+  - name: "{{ namespace }}/configmap/sshd-authorized-keys"
+    k8s:
+      state: present
+      definition: "{{ lookup('template', '../k8s_templates/configmap.yaml') }}"
+    vars:
+      configmap_name: sshd-authorized-keys
+      configmap_filename: authorized_keys
+      configmap_content: "{{ authorized_keys }}"
+    tags:
+    - configmap
+  - name: "{{ namespace }}/service/{{ app }}"
+    k8s:
+      state: present
+      definition: "{{ lookup('template', '../k8s_templates/service.yaml') }}"
+    vars:
+      serviceport: 22
+      targetport: 22
+      nodeport: "{{ sshd_nodeport }}"
+    tags:
+    - service
+  - name: "{{ namespace }}/deployment/{{ app }}"
+    k8s:
+      state: present
+      definition: "{{ lookup('template', '../k8s_templates/deployment.yaml') }}"
+    tags:
+    - deployment
+  - name: Wait for port {{ sshd_nodeport }} to become open on the host
+    wait_for:
+      port: "{{ sshd_nodeport }}"
+      timeout: 60
   vars:
     app: ansible-executor
-    configmap_namespace: "{{ namespace }}"
-    configmap_name: sshd-authorized-keys
-    configmap_filename: authorized_keys
-    configmap_content: "{{ authorized_keys }}"
-  tags:
-  - configmap
-
-- name: "{{ namespace }}/service/{{ app }}"
-  k8s:
-    state: present
-    definition: "{{ lookup('template', '../k8s_templates/service.yaml') }}"
-  vars:
-    app: ansible-executor
-    service_namespace: "{{ namespace }}"
-    service_name: "{{ app }}"
-    serviceport: 22
-    targetport: 22
-    nodeport: "{{ sshd_nodeport }}"
-  tags:
-  - service
-
-- name: "{{ namespace }}/deployment/{{ app }}"
-  k8s:
-    state: present
-    definition: "{{ lookup('template', '../k8s_templates/deployment.yaml') }}"
-  vars:
-    app: ansible-executor
-    deployment_namespace: "{{ namespace }}"
-    deployment_name: "{{ app }}"
+    target_namespace: "{{ namespace }}"
     deployment_replicas: 1
-  tags:
-  - deployment
-
-- name: Wait for port {{ sshd_nodeport }} to become open on the host
-  wait_for:
-    port: "{{ sshd_nodeport }}"
-    timeout: 60
