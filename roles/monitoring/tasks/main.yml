@@ -4,13 +4,13 @@
   k8s:
     state: present
     definition: "{{ lookup('file', item) }}"
-  with_fileglob: '00-kube-prometheus/*'
+  loop: "{{ lookup('fileglob', '00-kube-prometheus/*', wantlist=True) | sort }}"
 
 - name: "k8s ensure kube-prometheus workload ressources"
   k8s:
     state: present
     definition: "{{ lookup('file', item) }}"
-  with_fileglob: '01-kube-prometheus/*'
+  loop: "{{ lookup('fileglob', '01-kube-prometheus/*', wantlist=True) | sort }}"
 
 - name: "k8s ensure {{ namespace }}/ingress/{{ app }}"
   k8s:
