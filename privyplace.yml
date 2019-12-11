@@ -26,3 +26,10 @@
     tags: 
     - cluster
     - infra
+  - role: stream
+    tags: 
+    - cluster
+    - stream
+  - role: db
+    tags: 
+    - db

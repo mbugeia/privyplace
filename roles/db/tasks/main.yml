@@ -1,0 +1,41 @@
+---
+- name: namespace {{ namespace }}
+  k8s:
+    state: present
+    definition: "{{ lookup('template', '../k8s_templates/namespace.yaml') }}"
+  vars:
+    target_namespace: "{{ namespace }}"
+  tags:
+  - namespace
+
+- name: Postgresql
+  block:
+  - name: "{{ namespace }}/service/{{ app }}"
+    k8s:
+      state: present
+      definition: "{{ lookup('template', '../k8s_templates/service.yaml') }}"
+    vars:
+      serviceport: 5432
+      targetport: 5432
+    tags:
+    - service
+  - name: "{{ namespace }}/pvc/{{ app }}"
+    k8s:
+      state: present
+      definition: "{{ lookup('template', '../k8s_templates/pvc.yaml') }}"
+    tags:
+    - pvc
+  - name: "{{ namespace }}/deployment/{{ app }}"
+    k8s:
+      state: present
+      definition: "{{ lookup('template', '../k8s_templates/deployment.yaml') }}"
+    tags:
+    - deployment
+  vars:
+    app: "postgres"
+    target_namespace: "{{ namespace }}"
+    deployment_replicas: 1
+    pvc_storage: "{{ postgres_pvc_storage }}"
+
+
+  
