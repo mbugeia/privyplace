@@ -1,5 +1,7 @@
 # PrivyPlace
 
+*Disclaimer: do not use this, it's still in development*
+
 PrivyPlace is a opiniated personal cloud distribution based on a selection of open source software and deployed on a single node Kubernetes cluster.
 
 It makes use of several open-source software, mainly:
