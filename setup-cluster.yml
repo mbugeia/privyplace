@@ -1,0 +1,11 @@
+- name: setup-cluster
+  hosts: master
+  roles:
+  - role: boostrap-cluster
+    tags: 
+    - setup-cluster
+    - boostrap-cluster
+  - role: monitoring
+    tags: 
+    - setup-cluster
+    - monitoring

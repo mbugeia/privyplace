@@ -1,0 +1,7 @@
+- name: setup-apps
+  hosts: master
+  roles:
+  - role: stream
+    tags: 
+    - setup-apps
+    - stream

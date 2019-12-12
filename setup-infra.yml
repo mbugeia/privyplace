@@ -1,0 +1,11 @@
+- name: setup-infra
+  hosts: master
+  roles:
+  - role: infra
+    tags: 
+    - setup-infra
+    - infra
+  - role: db
+    tags: 
+    - setup-infra
+    - db

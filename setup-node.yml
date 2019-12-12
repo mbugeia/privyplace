@@ -1,0 +1,15 @@
+- name: setup-node
+  hosts: master
+  roles:
+  - role: packages
+    tags: 
+    - setup-node
+    - packages
+  - role: k3s
+    tags: 
+    - setup-node
+    - k3s
+  - role: zsh
+    tags: 
+    - setup-node
+    - zsh
