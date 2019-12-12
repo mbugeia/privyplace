@@ -5,7 +5,7 @@ sshd_image: privyplace/sshd:latest
 sshd_nodeport: 30000
 authorized_keys: ""
 
-deployment_spec: |
+sshd_deployment_spec: |
   containers:
   - name: sshd
     image: {{ sshd_image }}

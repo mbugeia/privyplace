@@ -5,7 +5,7 @@ postgres_image: postgres:12
 postgres_password: None
 postgres_pvc_storage: 500M
 
-deployment_spec: |
+postgres_deployment_spec: |
   containers:
   - name: postgres
     image: "{{ postgres_image }}"

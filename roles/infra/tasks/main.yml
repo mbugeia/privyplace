@@ -29,3 +29,4 @@
     serviceport: 22
     targetport: 22
     nodeport: "{{ sshd_nodeport }}"
+    deployment_spec: "{{ sshd_deployment_spec }}"

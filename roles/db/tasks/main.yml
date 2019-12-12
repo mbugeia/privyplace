@@ -22,3 +22,4 @@
     pvc_storage: "{{ postgres_pvc_storage }}"
     serviceport: 5432
     targetport: 5432
+    deployment_spec: "{{ postgres_deployment_spec }}"
