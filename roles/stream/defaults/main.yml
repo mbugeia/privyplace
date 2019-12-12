@@ -1,0 +1,61 @@
+---
+namespace: "stream"
+
+streamer_domain: "stream.{{ main_domain }}"
+letsencrypt_env: "staging"
+
+liquidsoap_image: privyplace/liquidsoap:reporting-tools-1.5.0-2448
+nginxhls_image: privyplace/nginx:latest
+
+liquidsoap_script: "{{ lookup('url', 'https://raw.githubusercontent.com/mbugeia/srt2hls/v0.0.1/radio/live.liq', split_lines=False) }}"
+liquidsoap_nginx_conf: "{{ lookup('url', 'https://raw.githubusercontent.com/mbugeia/srt2hls/v0.0.1/nginxhls/stream.conf', split_lines=False) | regex_replace('liquidsoap', 'localhost')}}"
+
+streamer_deployment_spec: |
+  containers:
+  - name: liquidsoap
+    image: {{ liquidsoap_image }}
+    imagePullPolicy: Always
+    ports:
+    - containerPort: 8500
+      protocol: TCP
+    - containerPort: 8081
+      protocol: TCP
+    - containerPort: 9090
+      protocol: TCP
+    - containerPort: 10000
+      protocol: UDP
+    - containerPort: 10001
+      protocol: UDP
+    volumeMounts:
+    - name: hls
+      mountPath: /hls
+    - name: liquidsoap-script
+      mountPath: /radio
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+  - name: nginx
+    image: {{ nginxhls_image }}
+    imagePullPolicy: Always
+    ports:
+    - containerPort: 80
+      protocol: TCP
+    volumeMounts:
+    - name: hls
+      mountPath: /hls
+    - name: nginx-stream
+      mountPath: /etc/nginx/conf.d
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+  volumes:
+  - name: hls
+    emptyDir: {}
+  - name: liquidsoap-script
+    configMap:
+      defaultMode: 420
+      name: liquidsoap-script
+  - name: nginx-stream
+    configMap:
+      defaultMode: 420
+      name: nginx-stream

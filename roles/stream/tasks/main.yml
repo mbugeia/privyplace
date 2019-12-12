@@ -1,0 +1,57 @@
+---
+- include_tasks: ../k8s_common/namespace.yml
+  vars:
+    target_namespace: "{{ namespace }}"
+  tags:
+  - namespace
+
+- name: liquidsoap-streamer
+  block:
+  - include_tasks: ../k8s_common/configmap.yml
+    vars:
+      configmap_name: liquidsoap-script
+      configmap_filename: live.liq
+      configmap_content: "{{ liquidsoap_script }}"
+    tags:
+    - configmap
+  - include_tasks: ../k8s_common/configmap.yml
+    vars:
+      configmap_name: nginx-stream
+      configmap_filename: stream.conf
+      configmap_content: "{{ liquidsoap_nginx_conf }}"
+    tags:
+    - configmap
+  - include_tasks: ../k8s_common/service.yml
+    tags:
+    - service
+  - include_tasks: ../k8s_common/deployment.yml
+    tags:
+    - deployment
+  - include_tasks: ../k8s_common/ingress.yml
+    tags:
+    - ingress
+  - include_tasks: ../k8s_common/service.yml
+    vars:
+      service_name: liquidsoap-srt1
+      protocol: UDP
+      targetport: 10000
+      serviceport: 10000
+      nodeport: 31000
+    tags:
+    - service
+  - include_tasks: ../k8s_common/service.yml
+    vars:
+      service_name: liquidsoap-srt2
+      protocol: UDP
+      targetport: 10001
+      serviceport: 10001
+      nodeport: 31001
+    tags:
+    - service
+  vars:
+    app: liquidsoap-streamer
+    target_namespace: "{{ namespace }}"
+    serviceport: 80
+    targetport: 80
+    deployment_spec: "{{ streamer_deployment_spec }}"
+    ingress_domain: "{{ streamer_domain }}"
