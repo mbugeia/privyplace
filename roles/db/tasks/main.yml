@@ -34,7 +34,6 @@
   vars:
     app: "postgres"
     target_namespace: "{{ namespace }}"
-    deployment_replicas: 1
     pvc_storage: "{{ postgres_pvc_storage }}"
 
 

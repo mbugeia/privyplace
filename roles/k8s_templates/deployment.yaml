@@ -7,7 +7,9 @@ metadata:
   labels:
     app: {{ deployment_name | default(app)}}
 spec:
+{% if deployment_replicas is defined %}
   replicas: {{ deployment_replicas }}
+{% endif %}
   selector:
     matchLabels:
       app: {{ deployment_name | default(app)}}
