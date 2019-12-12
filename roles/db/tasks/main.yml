@@ -1,8 +1,5 @@
 ---
-- name: namespace {{ namespace }}
-  k8s:
-    state: present
-    definition: "{{ lookup('template', '../k8s_templates/namespace.yaml') }}"
+- include_tasks: ../k8s_common/namespace.yml
   vars:
     target_namespace: "{{ namespace }}"
   tags:
@@ -10,31 +7,18 @@
 
 - name: Postgresql
   block:
-  - name: "{{ namespace }}/service/{{ app }}"
-    k8s:
-      state: present
-      definition: "{{ lookup('template', '../k8s_templates/service.yaml') }}"
-    vars:
-      serviceport: 5432
-      targetport: 5432
+  - include_tasks: ../k8s_common/service.yml
     tags:
     - service
-  - name: "{{ namespace }}/pvc/{{ app }}"
-    k8s:
-      state: present
-      definition: "{{ lookup('template', '../k8s_templates/pvc.yaml') }}"
+  - include_tasks: ../k8s_common/pvc.yml
     tags:
     - pvc
-  - name: "{{ namespace }}/deployment/{{ app }}"
-    k8s:
-      state: present
-      definition: "{{ lookup('template', '../k8s_templates/deployment.yaml') }}"
+  - include_tasks: ../k8s_common/deployment.yml
     tags:
     - deployment
   vars:
     app: "postgres"
     target_namespace: "{{ namespace }}"
     pvc_storage: "{{ postgres_pvc_storage }}"
-
-
-  
+    serviceport: 5432
+    targetport: 5432

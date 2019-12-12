@@ -1,0 +1,6 @@
+- name: "k8s ressource: {{ target_namespace }}"
+  k8s:
+    state: present
+    definition: "{{ lookup('template', '../k8s_templates/namespace.yaml') }}"
+  tags:
+  - namespace

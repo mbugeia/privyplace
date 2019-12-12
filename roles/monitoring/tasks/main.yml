@@ -5,17 +5,18 @@
     state: present
     definition: "{{ lookup('file', item) }}"
   loop: "{{ lookup('fileglob', '00-kube-prometheus/*', wantlist=True) | sort }}"
+  tags:
+  - setup-monitoring
 
 - name: "k8s ensure kube-prometheus workload ressources"
   k8s:
     state: present
     definition: "{{ lookup('file', item) }}"
   loop: "{{ lookup('fileglob', '01-kube-prometheus/*', wantlist=True) | sort }}"
+  tags:
+  - setup-monitoring
 
-- name: "k8s ensure {{ namespace }}/ingress/{{ app }}"
-  k8s:
-    state: present
-    definition: "{{ lookup('template', '../k8s_templates/ingress.yaml') }}"
+- include_tasks: ../k8s_common/ingress.yml
   vars:
     target_namespace: "{{ namespace }}"
     ingress_domain: "{{ grafana_domain }}"
@@ -24,10 +25,7 @@
   tags:
   - ingress
 
-- name: "k8s ensure {{ namespace }}ingress {{ app }}"
-  k8s:
-    state: present
-    definition: "{{ lookup('template', '../k8s_templates/ingress.yaml') }}"
+- include_tasks: ../k8s_common/ingress.yml
   vars:
     target_namespace: "{{ namespace }}"
     ingress_domain: "{{ prometheus_domain }}"
