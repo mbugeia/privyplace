@@ -5,5 +5,10 @@ metadata:
   name: {{ configmap_name | default(app)}}
   namespace: {{ target_namespace }}
 data:
-  {{ configmap_filename }}: |
-    {{ configmap_content | indent(width=4) }}
+{% if configmap_values is defined %}{% for key, value in configmap_values.items() %}
+  {{ key }}: {{ value }}
+{% endfor %}{% endif %}
+{% if configmap_files is defined %}{% for key, value in configmap_files.items() %}
+  {{ key }}: |
+    {{ value | indent(width=4) }}
+{% endfor %}{% endif %}

@@ -24,8 +24,8 @@
     app: ansible-executor
     target_namespace: "{{ namespace }}"
     configmap_name: sshd-authorized-keys
-    configmap_filename: authorized_keys
-    configmap_content: "{{ authorized_keys }}"
+    configmap_files:
+      authorized_keys: "{{ authorized_keys }}"
     serviceport: 22
     targetport: 22
     nodeport: "{{ sshd_nodeport }}"

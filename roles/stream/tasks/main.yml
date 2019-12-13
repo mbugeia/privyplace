@@ -10,15 +10,15 @@
   - include_tasks: ../k8s_common/configmap.yml
     vars:
       configmap_name: liquidsoap-script
-      configmap_filename: live.liq
-      configmap_content: "{{ liquidsoap_script }}"
+      configmap_files: 
+        live.liq: "{{ liquidsoap_script }}"
     tags:
     - configmap
   - include_tasks: ../k8s_common/configmap.yml
     vars:
       configmap_name: nginx-stream
-      configmap_filename: stream.conf
-      configmap_content: "{{ liquidsoap_nginx_conf }}"
+      configmap_files:
+        stream.conf: "{{ liquidsoap_nginx_conf }}"
     tags:
     - configmap
   - include_tasks: ../k8s_common/service.yml
