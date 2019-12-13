@@ -2,5 +2,6 @@
   k8s:
     state: present
     definition: "{{ lookup('template', '../k8s_templates/namespace.yaml') }}"
+    apply: yes
   tags:
   - namespace

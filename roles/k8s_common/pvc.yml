@@ -2,5 +2,6 @@
   k8s:
     state: present
     definition: "{{ lookup('template', '../k8s_templates/pvc.yaml') }}"
+    apply: yes
   tags:
   - pvc
