@@ -7,6 +7,9 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     cert-manager.io/cluster-issuer: letsencrypt-{{ letsencrypt_env }}
+{% if ingress_annotations is defined %}{% for key, value in ingress_annotations.items() %}
+    {{ key }}: {{ value }}
+{% endfor %}{% endif %}
 spec:
   tls:
   - hosts:
