@@ -19,6 +19,8 @@ RUN set -eux \
                        less \
                        jq \
                        zsh \
+                       unzip \
+                       wget \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
