@@ -1,0 +1,7 @@
+- name: "k8s ressource: {{ target_namespace }}/statefulset/{{ app }}"
+  k8s:
+    state: present
+    definition: "{{ lookup('template', '../k8s_templates/statefulset.yaml') }}"
+    apply: yes
+  tags:
+  - statefulset

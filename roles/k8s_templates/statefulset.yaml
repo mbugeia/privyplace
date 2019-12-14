@@ -1,0 +1,32 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ statefulset_name | default(app)}}
+  namespace: {{ target_namespace }}
+  labels:
+    app: {{ statefulset_name | default(app)}}
+spec:
+{% if statefulset_replicas is defined %}
+  replicas: {{ statefulset_replicas }}
+{% endif %}
+  selector:
+    matchLabels:
+      app: {{ statefulset_name | default(app)}}
+  template:
+    metadata:
+      labels:
+        app: {{ statefulset_name | default(app)}}
+    spec:
+      {{ statefulset_spec | indent(width=6) }}
+{% if statefulset_storage is defined %}
+  volumeClaimTemplates:
+  - metadata:
+      name: {{ statefulset_storage_name | default(app)}}
+    spec:
+      accessModes: [ "{{ storageclass_accessmode | default('ReadWriteOnce')}}" ]
+      storageClassName: "{{ storageclass_name | default('local-path')}}"
+      resources:
+        requests:
+          storage: {{ statefulset_storage }}
+{% endif %}
