@@ -4,11 +4,13 @@
   k8s:
     state: present
     definition: "{{ lookup('template', 'ingress-mandatory.yaml') }}"
+    apply: yes
 
 - name: ingress service
   k8s:
     state: present
     definition: "{{ lookup('template', 'ingress-service.yaml') }}"
+    apply: yes
 
 # Cert Manager
 # https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager-no-webhook.yaml
@@ -16,11 +18,13 @@
   k8s:
     state: present
     definition: "{{ lookup('template', 'cert-manager.yaml') }}"
+    apply: yes
 
 - name: letsencrypt staging issuer
   k8s:
     state: present
     definition: "{{ lookup('template', 'letsencrypt-issuer.yaml') }}"
+    apply: yes
   vars:
     letsencrypt_env: "staging"
     letsencrypt_server_url: "{{ letsencrypt_server_url_staging }}"
@@ -29,6 +33,7 @@
   k8s:
     state: present
     definition: "{{ lookup('template', 'letsencrypt-issuer.yaml') }}"
+    apply: yes
   vars:
     letsencrypt_env: "prod"
     letsencrypt_server_url: "{{ letsencrypt_server_url_prod }}"

@@ -4,6 +4,7 @@
   k8s:
     state: present
     definition: "{{ lookup('file', item) }}"
+    apply: yes
   loop: "{{ lookup('fileglob', '00-kube-prometheus/*', wantlist=True) | sort }}"
   tags:
   - setup-monitoring
@@ -12,6 +13,7 @@
   k8s:
     state: present
     definition: "{{ lookup('file', item) }}"
+    apply: yes
   loop: "{{ lookup('fileglob', '01-kube-prometheus/*', wantlist=True) | sort }}"
   tags:
   - setup-monitoring
