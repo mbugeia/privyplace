@@ -3,6 +3,17 @@ kind: PersistentVolumeClaim
 metadata:
   name: {{ pvc_name | default(app ~ '-pvc')}}
   namespace: {{ target_namespace }}
+  labels:
+    app: {{ pvc_partof | default(app)}}
+    app.kubernetes.io/name: "{{ pvc_name | default(app ~ '-pvc')}}"
+    app.kubernetes.io/part-of: "{{ pvc_partof | default(app)}}"
+    app.kubernetes.io/managed-by: privyplace
+{% if pvc_labels is defined %}{% for key, value in pvc_labels.items() %}
+    {{ key }}: "{{ value }}"
+{% endfor %}{% endif %}
+{% if labels is defined %}{% for key, value in labels.items() %}
+    {{ key }}: "{{ value }}"
+{% endfor %}{% endif %}
 spec:
   accessModes:
     - {{ pvc_accessmode | default('ReadWriteOnce')}}

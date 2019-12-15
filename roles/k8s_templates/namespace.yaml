@@ -2,6 +2,15 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: {{ target_namespace }}
+  labels:
+    app.kubernetes.io/name: "{{ target_namespace }}"
+    app.kubernetes.io/managed-by: privyplace
+{% if namespace_labels is defined %}{% for key, value in namespace_labels.items() %}
+    {{ key }}: "{{ value }}"
+{% endfor %}{% endif %}
+{% if labels is defined %}{% for key, value in labels.items() %}
+    {{ key }}: "{{ value }}"
+{% endfor %}{% endif %}
 spec:
   finalizers:
   - kubernetes

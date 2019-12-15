@@ -4,6 +4,17 @@ kind: Service
 metadata:
   name: {{ service_name | default(app)}}
   namespace: {{ target_namespace }}
+  labels:
+    app: {{ service_partof | default(app)}}
+    app.kubernetes.io/name: "{{ service_name | default(app)}}"
+    app.kubernetes.io/part-of: "{{ service_partof | default(app)}}"
+    app.kubernetes.io/managed-by: privyplace
+{% if service_labels is defined %}{% for key, value in service_labels.items() %}
+    {{ key }}: "{{ value }}"
+{% endfor %}{% endif %}
+{% if labels is defined %}{% for key, value in labels.items() %}
+    {{ key }}: "{{ value }}"
+{% endfor %}{% endif %}
 spec:
   ports:
   - port: {{ serviceport }}

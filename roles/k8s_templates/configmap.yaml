@@ -4,6 +4,17 @@ kind: ConfigMap
 metadata:
   name: {{ configmap_name | default(app)}}
   namespace: {{ target_namespace }}
+  labels:
+    app: {{ configmap_partof | default(app)}}
+    app.kubernetes.io/name: "{{ configmap_name | default(app)}}"
+    app.kubernetes.io/part-of: "{{ configmap_partof | default(app)}}"
+    app.kubernetes.io/managed-by: privyplace
+{% if configmap_labels is defined %}{% for key, value in configmap_labels.items() %}
+    {{ key }}: "{{ value }}"
+{% endfor %}{% endif %}
+{% if labels is defined %}{% for key, value in labels.items() %}
+    {{ key }}: "{{ value }}"
+{% endfor %}{% endif %}
 data:
 {% if configmap_values is defined %}{% for key, value in configmap_values.items() %}
   {{ key }}: {{ value }}

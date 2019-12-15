@@ -6,6 +6,15 @@ metadata:
   namespace: {{ target_namespace }}
   labels:
     app: {{ deployment_name | default(app)}}
+    app.kubernetes.io/name: "{{ deployment_name | default(app)}}"
+    app.kubernetes.io/part-of: "{{ deployment_partof | default(app)}}"
+    app.kubernetes.io/managed-by: privyplace
+{% if deployment_labels is defined %}{% for key, value in deployment_labels.items() %}
+    {{ key }}: "{{ value }}"
+{% endfor %}{% endif %}
+{% if labels is defined %}{% for key, value in labels.items() %}
+    {{ key }}: "{{ value }}"
+{% endfor %}{% endif %}
 spec:
 {% if deployment_replicas is defined %}
   replicas: {{ deployment_replicas }}
@@ -13,9 +22,15 @@ spec:
   selector:
     matchLabels:
       app: {{ deployment_name | default(app)}}
+      app.kubernetes.io/name: "{{ deployment_name | default(app)}}"
+      app.kubernetes.io/part-of: "{{ deployment_partof | default(app)}}"
+      app.kubernetes.io/managed-by: privyplace
   template:
     metadata:
       labels:
         app: {{ deployment_name | default(app)}}
+        app.kubernetes.io/name: "{{ deployment_name | default(app)}}"
+        app.kubernetes.io/part-of: "{{ deployment_partof | default(app)}}"
+        app.kubernetes.io/managed-by: privyplace
     spec:
       {{ deployment_spec | indent(width=6) }}

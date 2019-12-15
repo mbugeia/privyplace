@@ -6,6 +6,15 @@ metadata:
   namespace: {{ target_namespace }}
   labels:
     app: {{ statefulset_name | default(app)}}
+    app.kubernetes.io/name: "{{ statefulset_name | default(app)}}"
+    app.kubernetes.io/part-of: "{{ statefulset_partof | default(app)}}"
+    app.kubernetes.io/managed-by: privyplace
+{% if dstatefulset_labels is defined %}{% for key, value in statefulset_labels.items() %}
+    {{ key }}: "{{ value }}"
+{% endfor %}{% endif %}
+{% if labels is defined %}{% for key, value in labels.items() %}
+    {{ key }}: "{{ value }}"
+{% endfor %}{% endif %}
 spec:
 {% if statefulset_replicas is defined %}
   replicas: {{ statefulset_replicas }}
@@ -13,10 +22,16 @@ spec:
   selector:
     matchLabels:
       app: {{ statefulset_name | default(app)}}
+      app.kubernetes.io/name: "{{ statefulset_name | default(app)}}"
+      app.kubernetes.io/part-of: "{{ statefulset_partof | default(app)}}"
+      app.kubernetes.io/managed-by: privyplace
   template:
     metadata:
       labels:
         app: {{ statefulset_name | default(app)}}
+        app.kubernetes.io/name: "{{ statefulset_name | default(app)}}"
+        app.kubernetes.io/part-of: "{{ statefulset_partof | default(app)}}"
+        app.kubernetes.io/managed-by: privyplace
     spec:
       {{ statefulset_spec | indent(width=6) }}
 {% if statefulset_storage is defined %}

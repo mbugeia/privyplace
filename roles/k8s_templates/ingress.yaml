@@ -4,6 +4,17 @@ kind: Ingress
 metadata:
   name: {{ ingress_name | default(app)}}
   namespace: {{ target_namespace }}
+  labels:
+    app: {{ ingress_partof | default(app)}}
+    app.kubernetes.io/name: "{{ ingress_name | default(app)}}"
+    app.kubernetes.io/part-of: "{{ ingress_partof | default(app)}}"
+    app.kubernetes.io/managed-by: privyplace
+{% if ingress_labels is defined %}{% for key, value in ingress_labels.items() %}
+    {{ key }}: "{{ value }}"
+{% endfor %}{% endif %}
+{% if labels is defined %}{% for key, value in labels.items() %}
+    {{ key }}: "{{ value }}"
+{% endfor %}{% endif %}
   annotations:
     kubernetes.io/ingress.class: "nginx"
     cert-manager.io/cluster-issuer: letsencrypt-{{ letsencrypt_env }}
