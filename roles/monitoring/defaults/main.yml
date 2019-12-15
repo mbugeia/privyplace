@@ -1,5 +1,8 @@
 ---
-grafana_domain: "monitoring.{{ main_domain }}"
-letsencrypt_env: "staging"
-prometheus_domain: "prometheus.{{ main_domain }}"
 namespace: "monitoring"
+
+letsencrypt_env: "staging"
+
+alertmanager_domain: "alertmanager.{{ main_domain }}"
+grafana_domain: "monitoring.{{ main_domain }}"
+prometheus_domain: "prometheus.{{ main_domain }}"

@@ -35,3 +35,12 @@
     app: prometheus-k3s
   tags:
   - ingress
+
+- include_tasks: ../k8s_common/ingress.yml
+  vars:
+    target_namespace: "{{ namespace }}"
+    ingress_domain: "{{ alertmanager_domain }}"
+    serviceport: 9093
+    app: alertmanager-main
+  tags:
+  - ingress
