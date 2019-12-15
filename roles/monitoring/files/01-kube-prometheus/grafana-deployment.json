@@ -183,6 +183,11 @@
                         "mountPath": "/grafana-dashboard-definitions/0/workload-total",
                         "name": "grafana-dashboard-workload-total",
                         "readOnly": false
+                     },
+                     {
+                        "mountPath": "/etc/grafana",
+                        "name": "grafana-config",
+                        "readOnly": false
                      }
                   ]
                }
@@ -355,6 +360,12 @@
                      "name": "grafana-dashboard-workload-total"
                   },
                   "name": "grafana-dashboard-workload-total"
+               },
+               {
+                  "name": "grafana-config",
+                  "secret": {
+                     "secretName": "grafana-config"
+                  }
                }
             ]
          }

@@ -1,0 +1,12 @@
+{
+   "apiVersion": "v1",
+   "data": {
+      "grafana.ini": "W2F1dGhdCmRpc2FibGVfbG9naW5fZm9ybSA9IHRydWUKZGlzYWJsZV9zaWdub3V0X21lbnUgPSB0cnVlClthdXRoLmFub255bW91c10KZW5hYmxlZCA9IGZhbHNlClthdXRoLmJhc2ljXQplbmFibGVkID0gdHJ1ZQpbYXV0aC5wcm94eV0KYXV0b19zaWduX3VwID0gdHJ1ZQplbmFibGVkID0gdHJ1ZQpoZWFkZXJfbmFtZSA9IHgtb3JnYW5penItdXNlcgpoZWFkZXJfcHJvcGVydHkgPSB1c2VybmFtZQpoZWFkZXJzID0gRW1haWw6WC1Vc2VyLUVtYWlsLCBOYW1lOlgtVXNlci1OYW1lCnN5bmNfdHRsID0gNjAKd2hpdGVsaXN0ID0gMC4wLjAuMC8wCltzZWN1cml0eV0KZGlzYWJsZV9pbml0aWFsX2FkbWluX2NyZWF0aW9uID0gdHJ1ZQpbdXNlcnNdCmFsbG93X3NpZ25fdXAgPSBmYWxzZQphdXRvX2Fzc2lnbl9vcmcgPSB0cnVlCmF1dG9fYXNzaWduX29yZ19yb2xlID0gQWRtaW4K"
+   },
+   "kind": "Secret",
+   "metadata": {
+      "name": "grafana-config",
+      "namespace": "monitoring"
+   },
+   "type": "Opaque"
+}

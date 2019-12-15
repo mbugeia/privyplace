@@ -55,3 +55,5 @@
     targetport: 80
     deployment_spec: "{{ streamer_deployment_spec }}"
     ingress_domain: "{{ streamer_domain }}"
+    ingress_annotations:
+      nginx.ingress.kubernetes.io/enable-global-auth: "false"

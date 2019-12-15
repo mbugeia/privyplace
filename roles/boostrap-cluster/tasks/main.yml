@@ -12,6 +12,18 @@
     definition: "{{ lookup('template', 'ingress-service.yaml') }}"
     apply: yes
 
+- include_tasks: ../k8s_common/configmap.yml
+  vars:
+    target_namespace: ingress-nginx
+    configmap_name: "nginx-configuration"
+    app: ingress-nginx
+    configmap_values:
+      global-auth-url: "https://{{ organizr_domain }}/auth-0"
+      global-auth-signin: "https://{{ organizr_domain }}"
+      global-auth-response-headers: "x-organizr-user"
+  tags:
+  - configmap
+
 # Cert Manager
 # https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager-no-webhook.yaml
 - name: certmanager

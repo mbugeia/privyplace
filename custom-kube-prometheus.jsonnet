@@ -54,6 +54,27 @@ local kp =
         |||,
         replicas: 1,
       },
+      grafana+:: {
+        config: {
+          sections: {
+            "auth": {disable_login_form: true,
+                     disable_signout_menu: true},
+            "auth.anonymous": {enabled: false},
+            "auth.basic": {enabled: true},
+            "auth.proxy": {enabled: true,
+                           header_name: "x-organizr-user",
+                           header_property: "username",
+                           auto_sign_up: true,
+                           sync_ttl: 60,
+                           whitelist: "0.0.0.0/0",
+                           headers: "Email:X-User-Email, Name:X-User-Name"},
+            "users": {allow_sign_up: false,
+                      auto_assign_org: true,
+                      auto_assign_org_role: "Admin"},
+            "security": {disable_initial_admin_creation: true},
+          },
+        },
+      },
     },
   };
 

@@ -57,5 +57,7 @@
     statefulset_spec: "{{ organizr_statefulset_spec }}"
     statefulset_storage: "{{ organizr_statefulset_storage }}"
     ingress_domain: "{{ organizr_domain }}"
+    ingress_annotations:
+      nginx.ingress.kubernetes.io/enable-global-auth: "false"
   tags:
   - organizr

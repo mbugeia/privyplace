@@ -2,3 +2,5 @@
 letsencrypt_email: "toto@example.com"
 letsencrypt_server_url_staging: "https://acme-staging-v02.api.letsencrypt.org/directory"
 letsencrypt_server_url_prod: "https://acme-v02.api.letsencrypt.org/directory"
+
+organizr_domain: "{{ main_domain }}"
