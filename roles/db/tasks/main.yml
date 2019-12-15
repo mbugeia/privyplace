@@ -10,16 +10,13 @@
   - include_tasks: ../k8s_common/service.yml
     tags:
     - service
-  - include_tasks: ../k8s_common/pvc.yml
+  - include_tasks: ../k8s_common/statefulset.yml
     tags:
-    - pvc
-  - include_tasks: ../k8s_common/deployment.yml
-    tags:
-    - deployment
+    - statefulset
   vars:
     app: "postgres"
     target_namespace: "{{ namespace }}"
-    pvc_storage: "{{ postgres_pvc_storage }}"
     serviceport: 5432
     targetport: 5432
-    deployment_spec: "{{ postgres_deployment_spec }}"
+    statefulset_spec: "{{ postgres_statefulset_spec }}"
+    statefulset_storage: "{{ postgres_statefulset_storage }}"
