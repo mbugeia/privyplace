@@ -1,0 +1,25 @@
+---
+- include_tasks: ../k8s_common/namespace.yml
+  vars:
+    target_namespace: "{{ namespace }}"
+  tags:
+  - namespace
+
+- name: searx
+  block:
+  - include_tasks: ../k8s_common/service.yml
+    tags:
+    - service
+  - include_tasks: ../k8s_common/deployment.yml
+    tags:
+    - deployment
+  - include_tasks: ../k8s_common/ingress.yml
+    tags:
+    - ingress
+  vars:
+    app: searx
+    target_namespace: "{{ namespace }}"
+    serviceport: 8080
+    targetport: 8080
+    deployment_spec: "{{ searx_deployment_spec }}"
+    ingress_domain: "{{ searx_domain }}"

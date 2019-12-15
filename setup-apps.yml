@@ -5,3 +5,7 @@
     tags: 
     - setup-apps
     - stream
+  - role: searx
+    tags: 
+    - setup-apps
+    - searx

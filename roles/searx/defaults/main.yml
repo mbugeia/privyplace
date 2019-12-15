@@ -1,0 +1,19 @@
+---
+namespace: "searx"
+
+searx_domain: "search.{{ main_domain }}"
+letsencrypt_env: "staging"
+
+searx_image: privyplace/searx:latest
+
+searx_deployment_spec: |
+  containers:
+  - name: searx
+    image: {{ searx_image }}
+    imagePullPolicy: Always
+    ports:
+    - containerPort: 8080
+      protocol: TCP
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
