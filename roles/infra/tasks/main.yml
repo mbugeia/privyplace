@@ -37,7 +37,7 @@
     vars:
       configmap_name: "nginx-{{ app }}"
       configmap_files:
-        php.conf: "{{ lookup('file', '../k8s_templates/nginx-php.conf', split_lines=False) }}"
+        php.conf: "{{ lookup('template', 'nginx-organizr.conf', split_lines=False) }}"
     tags:
     - configmap
   - include_tasks: ../k8s_common/service.yml
