@@ -1,3 +1,14 @@
+- name: setup-apps-dbs
+  hosts: ansible-executor
+  tasks:
+  - include: roles/db/tasks/postgres_db.yml
+    vars:
+      db_name: "freshrss"
+      db_password: "{{ freshrss_db_password }}"
+    tags: 
+    - setup-apps
+    - setup-apps-dbs
+
 - name: setup-apps
   hosts: master
   roles:
@@ -9,3 +20,7 @@
     tags: 
     - setup-apps
     - searx
+  - role: freshrss
+    tags: 
+    - setup-apps
+    - freshrss

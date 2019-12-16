@@ -1,0 +1,37 @@
+---
+- include_tasks: ../k8s_common/namespace.yml
+  vars:
+    target_namespace: "{{ namespace }}"
+  tags:
+  - namespace
+
+- name: freshrss
+  block:
+  - include_tasks: ../k8s_common/configmap.yml
+    vars:
+      configmap_name: "nginx-{{ app }}"
+      configmap_files:
+        php.conf: "{{ lookup('template', 'nginx-freshrss.conf', split_lines=False) }}"
+    tags:
+    - configmap
+  - include_tasks: ../k8s_common/service.yml
+    tags:
+    - service
+  - include_tasks: ../k8s_common/statefulset.yml
+    tags:
+    - statefulset
+  - include_tasks: ../k8s_common/ingress.yml
+    tags:
+    - ingress
+  vars:
+    app: freshrss
+    target_namespace: "{{ namespace }}"
+    serviceport: 8080
+    targetport: 8080
+    statefulset_spec: "{{ freshrss_statefulset_spec }}"
+    statefulset_storage: "{{ freshrss_statefulset_storage }}"
+    ingress_domain: "{{ freshrss_domain }}"
+    ingress_annotations:
+      nginx.ingress.kubernetes.io/enable-global-auth: "false"
+  tags:
+  - freshrss

@@ -22,6 +22,9 @@ RUN set -eux \
                           php-xml \
                           php-xmlrpc \
                           mailutils \
+                          php-gmp \
+                          php-intl \
+                          php-mbstring \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && sed -i "s|;*date.timezone =.*|date.timezone = ${TIMEZONE}|i" /etc/php/7.3/fpm/php.ini \

@@ -1,0 +1,85 @@
+---
+namespace: "freshrss"
+
+base_image: privyplace/debian:latest
+
+nginx_image: privyplace/nginx:latest
+
+freshrss_image: privyplace/freshrss:latest
+freshrss_domain: "rss.{{ main_domain }}"
+freshrss_user: admin
+freshrss_language: en
+freshrss_db_password: MySecretPassword
+
+freshrss_statefulset_storage: 100M
+
+freshrss_statefulset_spec: |
+  initContainers:
+  - name: fix-volume-perm
+    image: busybox
+    command: ["chown","-R","33:33", "/www", "/www/data"]
+    volumeMounts:
+    - name: www
+      mountPath: /www
+    - name: {{ app }}
+      mountPath: /www/data
+  containers:
+  - name: php
+    image: {{ freshrss_image }}
+    imagePullPolicy: Always
+    env:
+    - name: FRESHRSS_USER
+      value: "{{ freshrss_user }}"
+    - name: FRESHRSS_DOMAIN
+      value: "{{ freshrss_domain }}"
+    - name: FRESHRSS_LANGUAGE
+      value: "{{ freshrss_language }}"
+    - name: FRESHRSS_DB_PASSWORD
+      value: "{{ freshrss_db_password }}"
+    ports:
+    - containerPort: 9000
+      protocol: TCP
+    volumeMounts:
+    - name: www
+      mountPath: /www
+    - name: {{ app }}
+      mountPath: /www/data
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+  - name: freshrss-cron
+    image: {{ freshrss_image }}
+    imagePullPolicy: Always
+    args:
+    - "/cron.sh"
+    volumeMounts:
+    - name: www
+      mountPath: /www
+    - name: {{ app }}
+      mountPath: /www/data
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+  - name: nginx
+    image: {{ nginx_image }}
+    imagePullPolicy: Always
+    ports:
+    - containerPort: 8080
+      protocol: TCP
+    volumeMounts:
+    - name: www
+      mountPath: /www
+    - name: {{ app }}
+      mountPath: /www/data
+    - name: nginx-freshrss
+      mountPath: /etc/nginx/conf.d
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+  volumes:
+  - name: www
+    emptyDir: {}
+  - name: nginx-freshrss
+    configMap:
+      defaultMode: 420
+      name: nginx-freshrss
