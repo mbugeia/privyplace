@@ -1,0 +1,7 @@
+- name: "k8s ressource: {{ target_namespace }}/cronjob/{{ app }}"
+  k8s:
+    state: present
+    definition: "{{ lookup('template', '../k8s_templates/cronjob.yaml') }}"
+    apply: yes
+  tags:
+  - cronjob

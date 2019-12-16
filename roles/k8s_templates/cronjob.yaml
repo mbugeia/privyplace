@@ -1,0 +1,30 @@
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ cronjob_name | default(app)}}
+  namespace: {{ target_namespace }}
+  labels:
+    app: {{ cronjob_name | default(app)}}
+    app.kubernetes.io/name: "{{ cronjob_name | default(app)}}"
+    app.kubernetes.io/part-of: "{{ cronjob_partof | default(app)}}"
+    app.kubernetes.io/managed-by: privyplace
+{% if cronjob_labels is defined %}{% for key, value in cronjob_labels.items() %}
+    {{ key }}: "{{ value }}"
+{% endfor %}{% endif %}
+{% if labels is defined %}{% for key, value in labels.items() %}
+    {{ key }}: "{{ value }}"
+{% endfor %}{% endif %}
+spec:
+  schedule: "{{ cronjob_schedule}}"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: {{ cronjob_name | default(app)}}
+            app.kubernetes.io/name: "{{ cronjob_name | default(app)}}"
+            app.kubernetes.io/part-of: "{{ cronjob_partof | default(app)}}"
+            app.kubernetes.io/managed-by: privyplace
+        spec:
+          {{ cronjob_spec | indent(width=10) }}
