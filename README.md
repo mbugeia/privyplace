@@ -9,6 +9,7 @@ It makes use of several open-source software, mainly:
 - k3s: A lightweight distribtution of Kubernetes
 - Ansible: to generate most of the k8s ressources
 - Prometheus and grafana for the monitoring stack
+- Organizr as main dashboard and to provide sso
 
 ## Prereq
 
@@ -21,6 +22,8 @@ pip3 install ansible PyYAML openshift
 Debian 10 (untested on other)
 root ssh access
 ```
+
+## SSO and security considerations
 
 ## Usage
 
@@ -40,18 +43,18 @@ authorized_keys: |
 
 ### Deploy
 ```
-ansible-playbook -D -i inventory privyplace.yml
+ansible-playbook -D -i inventory.yml privyplace.yml
 ```
 
 ## Advanced Usage
 
 ```
 # Check before deploy
-ansible-playbook -D -i inventory privyplace.yml --check
+ansible-playbook -D -i inventory.yml privyplace.yml --check
 # Deploy only ingress
-ansible-playbook -D -i inventory privyplace.yml --tags ingress
+ansible-playbook -D -i inventory.yml privyplace.yml --tags ingress
 # Deploy only roles setup-cluster
-ansible-playbook -D -i inventory privyplace.yml --tags setup-cluster
+ansible-playbook -D -i inventory.yml privyplace.yml --tags setup-cluster
 ```
 
 Build monitoring ressources

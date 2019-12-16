@@ -1,0 +1,41 @@
+- name: "delete {{ db_name }} database"
+  postgresql_db:
+    name: "{{ db_name }}"
+    state: absent
+    login_host: postgres.db
+    login_password: "{{ postgres_password }}"
+    port: 5432
+  tags:
+  - never
+  - delete-db
+
+- name: "create {{ db_name }} database"
+  postgresql_db:
+    name: "{{ db_name }}"
+    encoding: UTF-8
+    login_host: postgres.db
+    login_user: postgres
+    login_password: "{{ postgres_password }}"
+    port: 5432
+
+- name: "create {{ db_name }} database user"
+  postgresql_user:
+    db: "{{ db_name }}"
+    name: "{{ db_name }}"
+    password: "{{ db_password }}"
+    encrypted: yes
+    login_host: postgres.db
+    login_user: postgres
+    login_password: "{{ postgres_password }}"
+    port: 5432
+
+- name: "grant all right to {{ db_name }} database user on {{ db_name }} database"
+  postgresql_privs:
+    db: "{{ db_name }}"
+    role: "{{ db_name }}"
+    privs: ALL
+    type: database
+    login_host: postgres.db
+    login_user: postgres
+    login_password: "{{ postgres_password }}"
+    port: 5432
