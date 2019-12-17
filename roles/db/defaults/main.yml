@@ -15,6 +15,12 @@ postgres_statefulset_spec: |
       value: "{{ postgres_password }}"
     - name: PGDATA
       value: "/data"
+    livenessProbe:
+      tcpSocket:
+        port: 5432
+    readinessProbe:
+      tcpSocket:
+        port: 5432
     ports:
     - containerPort: 5432
       protocol: TCP

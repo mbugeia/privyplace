@@ -10,6 +10,12 @@ sshd_deployment_spec: |
   - name: sshd
     image: {{ sshd_image }}
     imagePullPolicy: Always
+    livenessProbe:
+      tcpSocket:
+        port: 22
+    readinessProbe:
+      tcpSocket:
+        port: 22
     ports:
     - containerPort: 22
       protocol: TCP
@@ -39,6 +45,12 @@ organizr_statefulset_spec: |
     ports:
     - containerPort: 9000
       protocol: TCP
+    livenessProbe:
+      tcpSocket:
+        port: 9000
+    readinessProbe:
+      tcpSocket:
+        port: 9000
     volumeMounts:
     - name: www
       mountPath: /www
@@ -57,6 +69,14 @@ organizr_statefulset_spec: |
     ports:
     - containerPort: 8080
       protocol: TCP
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: 8080
+    readinessProbe:
+      httpGet:
+        path: /healthz
+        port: 8080
     volumeMounts:
     - name: www
       mountPath: /www

@@ -36,6 +36,12 @@ freshrss_statefulset_spec: |
       value: "{{ freshrss_language }}"
     - name: FRESHRSS_DB_PASSWORD
       value: "{{ freshrss_db_password }}"
+    livenessProbe:
+      tcpSocket:
+        port: 9000
+    readinessProbe:
+      tcpSocket:
+        port: 9000
     ports:
     - containerPort: 9000
       protocol: TCP
@@ -63,6 +69,14 @@ freshrss_statefulset_spec: |
   - name: nginx
     image: {{ nginx_image }}
     imagePullPolicy: Always
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: 8080
+    readinessProbe:
+      httpGet:
+        path: /healthz
+        port: 8080
     ports:
     - containerPort: 8080
       protocol: TCP

@@ -4,7 +4,7 @@ namespace: "stream"
 streamer_domain: "stream.{{ main_domain }}"
 letsencrypt_env: "staging"
 
-liquidsoap_image: privyplace/liquidsoap:reporting-tools-1.5.0-2448
+liquidsoap_image: privyplace/liquidsoap:master-1.5.0-2462
 nginxhls_image: privyplace/nginx:latest
 
 liquidsoap_script: "{{ lookup('url', 'https://raw.githubusercontent.com/mbugeia/srt2hls/v0.0.1/radio/live.liq', split_lines=False) }}"
@@ -37,6 +37,13 @@ streamer_deployment_spec: |
   - name: nginx
     image: {{ nginxhls_image }}
     imagePullPolicy: Always
+    livenessProbe:
+      tcpSocket:
+        port: 80
+    readinessProbe:
+      httpGet:
+        path: /live.m3u8
+        port: 80
     ports:
     - containerPort: 80
       protocol: TCP

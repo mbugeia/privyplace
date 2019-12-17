@@ -11,6 +11,13 @@ searx_deployment_spec: |
   - name: searx
     image: {{ searx_image }}
     imagePullPolicy: Always
+    livenessProbe:
+      tcpSocket:
+        port: 8080
+    readinessProbe:
+      httpGet:
+        path: /
+        port: 8080
     ports:
     - containerPort: 8080
       protocol: TCP
