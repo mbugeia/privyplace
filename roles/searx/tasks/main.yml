@@ -23,3 +23,5 @@
     targetport: 8080
     deployment_spec: "{{ searx_deployment_spec }}"
     ingress_domain: "{{ searx_domain }}"
+  tags:
+  - searx

@@ -57,3 +57,5 @@
     ingress_domain: "{{ streamer_domain }}"
     ingress_annotations:
       nginx.ingress.kubernetes.io/enable-global-auth: "false"
+  tags:
+  - liquidsoap-streamer

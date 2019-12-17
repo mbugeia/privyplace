@@ -20,3 +20,5 @@
     targetport: 5432
     statefulset_spec: "{{ postgres_statefulset_spec }}"
     statefulset_storage: "{{ postgres_statefulset_storage }}"
+  tags:
+  - postgresql

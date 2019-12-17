@@ -30,6 +30,8 @@
     targetport: 22
     nodeport: "{{ sshd_nodeport }}"
     deployment_spec: "{{ sshd_deployment_spec }}"
+  tags:
+  - ansible-executor
 
 - name: organizr
   block:
