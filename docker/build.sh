@@ -1,7 +1,7 @@
 #! /bin/bash
 
 set -eu
-export DOCKER_ID_USER="privyplace"
+DOCKER_ID_USER=${DOCKER_ID_USER:-"privyplace"}
 base_image_path="$1"
 tag="${2:-latest}"
 
@@ -11,6 +11,13 @@ do
   echo "#########################################"
   echo "Building image "$DOCKER_ID_USER"/"$image""
   echo "#########################################"
-  docker build -t "$DOCKER_ID_USER"/"$image":"$tag" "$image_path"
-  docker push "$DOCKER_ID_USER"/"$image":"$tag"
+  if [ ! "$tag" = "latest" ]
+  then
+    docker build -t "$DOCKER_ID_USER"/"$image":latest "$image_path" --no-cache
+    docker tag "$DOCKER_ID_USER"/"$image":latest "$DOCKER_ID_USER"/"$image":"$tag"
+    docker push "$DOCKER_ID_USER"/"$image":"$tag" 
+  else
+    docker build -t "$DOCKER_ID_USER"/"$image":latest "$image_path"
+  fi
+  docker push "$DOCKER_ID_USER"/"$image":latest
 done

@@ -64,17 +64,26 @@ Then edit `inventory.yml` and replace YOURDOMAIN by your real domain name.
 Edit the file `group_vars/all` to configure secret.
 
 ```
+# mains options
 letsencrypt_email: "youremail@example.com"
 letsencrypt_env: # staging or prod
 main_domain: YOURDOMAIN.TLD
 
+# passwords
 postgres_password: postgresmasterpassword
-
 freshrss_db_password: freshrsspassword
 
+# shh public key to connect to ansible-executor
 authorized_keys: |
   ssh-rsa your ssh public key
 
+# docker images, use latest images if ommited
+base_image: privyplace/debian:v0.0.1
+nginx_image: privyplace/nginx:v0.0.1
+sshd_image: privyplace/sshd:v0.0.1
+organizr_image: privyplace/organizr:v0.0.1
+freshrss_image: privyplace/freshrss:v0.0.1
+searx_image: privyplace/searx:v0.0.1
 ```
 You can also override default value here like `freshrss_domain: "myrssdomain.tld"`.
 
@@ -153,6 +162,17 @@ jb init
 jb install github.com/coreos/kube-prometheus/jsonnet/kube-prometheus
 # customize custom-kube-prometheus.jsonnet
 ./build-monitoring.sh
+```
+
+### Build docker image
+
+```
+export DOCKER_ID_USER="privyplace"
+cd docker
+# build and push latest php/* images
+./build.sh debian/php
+# make a clean release and push all debian images
+./build.sh debian v0.0.1
 ```
 
 ## Knows issues
