@@ -31,9 +31,6 @@ streamer_deployment_spec: |
       mountPath: /hls
     - name: liquidsoap-script
       mountPath: /radio
-    resources: {}
-    terminationMessagePath: /dev/termination-log
-    terminationMessagePolicy: File
   - name: nginx
     image: {{ nginxhls_image }}
     imagePullPolicy: Always
@@ -52,17 +49,12 @@ streamer_deployment_spec: |
       mountPath: /hls
     - name: nginx-stream
       mountPath: /etc/nginx/conf.d
-    resources: {}
-    terminationMessagePath: /dev/termination-log
-    terminationMessagePolicy: File
   volumes:
   - name: hls
     emptyDir: {}
   - name: liquidsoap-script
     configMap:
-      defaultMode: 420
       name: liquidsoap-script
   - name: nginx-stream
     configMap:
-      defaultMode: 420
       name: nginx-stream

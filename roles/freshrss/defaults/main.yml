@@ -50,9 +50,6 @@ freshrss_statefulset_spec: |
       mountPath: /www
     - name: {{ app }}
       mountPath: /www/data
-    resources: {}
-    terminationMessagePath: /dev/termination-log
-    terminationMessagePolicy: File
   - name: freshrss-cron
     image: {{ freshrss_image }}
     imagePullPolicy: Always
@@ -63,9 +60,6 @@ freshrss_statefulset_spec: |
       mountPath: /www
     - name: {{ app }}
       mountPath: /www/data
-    resources: {}
-    terminationMessagePath: /dev/termination-log
-    terminationMessagePolicy: File
   - name: nginx
     image: {{ nginx_image }}
     imagePullPolicy: Always
@@ -87,13 +81,9 @@ freshrss_statefulset_spec: |
       mountPath: /www/data
     - name: nginx-freshrss
       mountPath: /etc/nginx/conf.d
-    resources: {}
-    terminationMessagePath: /dev/termination-log
-    terminationMessagePolicy: File
   volumes:
   - name: www
     emptyDir: {}
   - name: nginx-freshrss
     configMap:
-      defaultMode: 420
       name: nginx-freshrss
