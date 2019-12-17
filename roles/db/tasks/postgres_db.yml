@@ -1,13 +1,13 @@
-- name: "delete {{ db_name }} database"
-  postgresql_db:
-    name: "{{ db_name }}"
-    state: absent
-    login_host: postgres.db
-    login_password: "{{ postgres_password }}"
-    port: 5432
-  tags:
-  - never
-  - delete-db
+# - name: "delete {{ db_name }} database"
+#   postgresql_db:
+#     name: "{{ db_name }}"
+#     state: absent
+#     login_host: postgres.db
+#     login_password: "{{ postgres_password }}"
+#     port: 5432
+#   tags:
+#   - never
+#   - delete-db
 
 - name: "create {{ db_name }} database"
   postgresql_db:
