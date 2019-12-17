@@ -102,7 +102,9 @@ By default you will have access to theses urls. All of theses can be overriden i
 
 #### Monitoring stack
 https://monitoring.YOURDOMAIN.TLD
+
 https://prometheus.YOURDOMAIN.TLD
+
 https://alertmanager.YOURDOMAIN.TLD
 
 **Searx**
@@ -144,3 +146,7 @@ jb install github.com/coreos/kube-prometheus/jsonnet/kube-prometheus
 # customize custom-kube-prometheus.jsonnet
 ./build-monitoring.sh
 ```
+
+## Knows issues
+
+Some monitoring dashboard are broken because of https://github.com/rancher/k3s/issues/473
