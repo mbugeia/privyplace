@@ -1,0 +1,39 @@
+---
+- include_tasks: ../k8s_common/namespace.yml
+  vars:
+    target_namespace: "{{ namespace }}"
+  tags:
+  - namespace
+
+- name: droppy
+  block:
+  - include_tasks: ../k8s_common/service.yml
+    tags:
+    - service
+  - include_tasks: ../k8s_common/statefulset.yml
+    tags:
+    - statefulset
+  - include_tasks: ../k8s_common/ingress.yml
+    vars:
+      ingress_annotations:
+        nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    tags:
+    - ingress
+  - include_tasks: ../k8s_common/ingress.yml
+    vars:
+      ingress_name: droppy-public
+      ingress_path: "/$/"
+      ingress_annotations:
+        nginx.ingress.kubernetes.io/enable-global-auth: "false"
+    tags:
+    - ingress
+  vars:
+    app: droppy
+    target_namespace: "{{ namespace }}"
+    serviceport: 8989
+    targetport: 8989
+    statefulset_spec: "{{ droppy_statefulset_spec }}"
+    statefulset_storage: "{{ droppy_statefulset_storage }}"
+    ingress_domain: "{{ droppy_domain }}"
+  tags:
+  - droppy

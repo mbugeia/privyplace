@@ -19,6 +19,7 @@ Additionnaly to the infrastucture, several apps are available to install on the 
 - [FreshRSS](https://freshrss.org/) a great RSS aggregator
 - [Searx](https://asciimoo.github.io/searx/) an internet metasearch engine 
 - [srt2hls](https://github.com/mbugeia/srt2hls) an audio HLS streaming server
+- [Droppy](https://github.com/silverwind/droppy) a file storage server with a web interface
 
 ## SSO and ingress protection
 
@@ -84,6 +85,7 @@ sshd_image: privyplace/sshd:v0.0.1
 organizr_image: privyplace/organizr:v0.0.1
 freshrss_image: privyplace/freshrss:v0.0.1
 searx_image: privyplace/searx:v0.0.1
+droppy_image: privyplace/droppy:v0.0.1
 ```
 You can also override default value here like `freshrss_domain: "myrssdomain.tld"`.
 
@@ -128,6 +130,10 @@ https://rss.YOURDOMAIN.TLD
 **Stream**
 
 ffplay https://stream.YOURDOMAIN.TLD/live.m3u8
+
+**Droppy**
+
+https://drop.YOURDOMAIN.TLD
 
 ## Advanced Usage
 

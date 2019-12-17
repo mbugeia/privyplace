@@ -1,0 +1,27 @@
+---
+namespace: "droppy"
+
+droppy_domain: "drop.{{ main_domain }}"
+letsencrypt_env: "staging"
+
+droppy_image: privyplace/droppy:latest
+
+droppy_statefulset_storage: 5G
+
+droppy_statefulset_spec: |
+  containers:
+  - name: droppy
+    image: {{ droppy_image }}
+    imagePullPolicy: Always
+    ports:
+    - containerPort: 8989
+      protocol: TCP
+    livenessProbe:
+      tcpSocket:
+        port: 8989
+    readinessProbe:
+      tcpSocket:
+        port: 8989
+    volumeMounts:
+    - name: droppy
+      mountPath: /data

@@ -24,3 +24,7 @@
     tags: 
     - setup-apps
     - freshrss
+  - role: droppy
+    tags: 
+    - setup-apps
+    - droppy
