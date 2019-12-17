@@ -10,4 +10,6 @@ RUN set -eux \
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
-CMD ["nginx"]
+COPY run.sh /run.sh
+
+CMD ["/run.sh"]
