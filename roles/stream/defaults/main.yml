@@ -5,7 +5,7 @@ streamer_domain: "stream.{{ main_domain }}"
 letsencrypt_env: "staging"
 
 liquidsoap_image: privyplace/liquidsoap:master-1.5.0-2462
-nginxhls_image: privyplace/nginx:latest
+nginx_image: privyplace/nginx:latest
 
 liquidsoap_script: "{{ lookup('url', 'https://raw.githubusercontent.com/mbugeia/srt2hls/v0.0.1/radio/live.liq', split_lines=False) }}"
 liquidsoap_nginx_conf: "{{ lookup('url', 'https://raw.githubusercontent.com/mbugeia/srt2hls/v0.0.1/nginxhls/stream.conf', split_lines=False) | regex_replace('liquidsoap', 'localhost')}}"
@@ -32,7 +32,7 @@ streamer_deployment_spec: |
     - name: liquidsoap-script
       mountPath: /radio
   - name: nginx
-    image: {{ nginxhls_image }}
+    image: {{ nginx_image }}
     imagePullPolicy: Always
     livenessProbe:
       tcpSocket:
