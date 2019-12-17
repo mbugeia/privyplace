@@ -44,6 +44,7 @@ cd privyplace
 #### remote server
 - Debian 10 (untested on other)
 - root ssh access
+- Firewall rules to allow ports 80 and 443 from internet
 - A domain with DNS configured to point to your server, for example
 ```
 YOURDOMAIN.TLD. 300 IN A yourserveripv4
@@ -120,6 +121,13 @@ https://rss.YOURDOMAIN.TLD
 ffplay https://stream.YOURDOMAIN.TLD/live.m3u8
 
 ## Advanced Usage
+
+### Access the cluster from you local machine
+
+- [Install Kubectl](https://kubernetes.io/fr/docs/tasks/tools/install-kubectl/)
+- mkdir ~/.kube
+- scp root@youserverip:.kube/config ~/.kube/config
+- Edit ~/.kube/config and replace https://127.0.0.1:6443 with your server ip
 
 ### Partial deploy
 
