@@ -9,9 +9,9 @@ It makes use of several open-source software, mainly:
 - [k3s](https://k3s.io/): A lightweight distribtution of Kubernetes
 - [Ansible](https://www.ansible.com/): to orchestrate cluster installation, generate and deploy the k8s ressources
 - [kube-prometheus](https://github.com/coreos/kube-prometheus) for the monitoring stack, based on Prometheus and grafana
-- [Organizr](https://github.com/causefx/Organizr) as main dashboard and to provide sso 
+- [Organizr](https://github.com/causefx/Organizr) to protect applications and provide Single Sign-On 
 - [Ingress-nginx](https://kubernetes.github.io/ingress-nginx/) to serve cluster ingress in https
-- [Cert-Manager](https://cert-manager.io/) to generate Let's Encrypt certificate
+- [Cert-Manager](https://cert-manager.io/) to generate [Let's Encrypt](https://letsencrypt.org/) certificate
 - [Postgresql](https://www.postgresql.org/) as main database for apps
 
 Additionnaly to the infrastucture, several apps are available to install on the cluster, for now:
@@ -24,13 +24,18 @@ Additionnaly to the infrastucture, several apps are available to install on the 
 
 ![Alt text](doc/img/portal.png?raw=true "Privy Place Portal")
 
-## SSO and ingress protection
+## Security considerations
 
-PrivyPlace use the [external auth ingress functionality](https://kubernetes.github.io/ingress-nginx/examples/auth/external-auth/) 
-coupled to Organizr to provide authentification on all ingress by default.
+PrivyPlace assumes, for now, a single tenant cluster where everyone connected is an administrator.
+
+### SSO and ingress protection
+
+By default, once the first run setup done (see below), all applications will be secured by proper default values and a Single Sign-On solution.
+For now, it use the [external auth ingress functionality](https://kubernetes.github.io/ingress-nginx/examples/auth/external-auth/) 
+coupled to Organizr.
 
 All apps that support reverse proxy header authentification can make use of it to manage user.
-This is the case for Grafana where the x-organizr-user header is used to pass the Organizr user to Grafana.
+This is the case for Grafana where the `x-organizr-user` header is used to pass the Organizr user to Grafana.
 
 The authentification can be disabled on specific ingress like in the stream app by using the annotation `nginx.ingress.kubernetes.io/enable-global-auth: "false"`.
 
