@@ -15,6 +15,7 @@ freshrss_image: privyplace/freshrss:v0.0.1
 searx_image: privyplace/searx:v0.0.1
 droppy_image: privyplace/droppy:v0.0.1
 portal_image: privyplace/privyplaceportal:v0.0.1
+thelounge_image: privyplace/thelounge:v0.0.1
 
 alertmanager_domain: "alertmanager.{{ main_domain }}"
 grafana_domain: "monitoring.{{ main_domain }}"
