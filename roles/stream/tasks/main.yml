@@ -36,8 +36,30 @@
       protocol: UDP
       targetport: 10000
       serviceport: 10000
-      nodeport: 31000
+    when: stream_insecure_enabled == false
     tags:
+    - stream-secure
+    - service
+  - include_tasks: ../k8s_common/service.yml
+    vars:
+      service_name: liquidsoap-srt2
+      protocol: UDP
+      targetport: 10001
+      serviceport: 10001
+    when: stream_insecure_enabled == false
+    tags:
+    - stream-secure
+    - service
+  - include_tasks: ../k8s_common/service.yml
+    vars:
+      service_name: liquidsoap-srt1
+      protocol: UDP
+      targetport: 10000
+      serviceport: 10000
+      nodeport: 31000
+    when: stream_insecure_enabled == true
+    tags:
+    - stream-insecure
     - service
   - include_tasks: ../k8s_common/service.yml
     vars:
@@ -46,7 +68,9 @@
       targetport: 10001
       serviceport: 10001
       nodeport: 31001
+    when: stream_insecure_enabled == true
     tags:
+    - stream-insecure
     - service
   vars:
     app: liquidsoap-streamer

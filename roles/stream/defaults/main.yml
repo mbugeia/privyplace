@@ -10,6 +10,12 @@ nginx_image: privyplace/nginx:latest
 liquidsoap_script: "{{ lookup('url', 'https://raw.githubusercontent.com/mbugeia/srt2hls/v0.0.1/radio/live.liq', split_lines=False) }}"
 liquidsoap_nginx_conf: "{{ lookup('url', 'https://raw.githubusercontent.com/mbugeia/srt2hls/v0.0.1/nginxhls/stream.conf', split_lines=False) | regex_replace('liquidsoap', 'localhost')}}"
 
+# Setting this to true will make the srt services bind to a Nodeport
+# Since SRT connection is not yet secure in Liquidsoap,that could 
+# allow anyone to stream content if your firewall rules are not properly 
+# set. So only activate this if you know what you are doing.
+stream_insecure_enabled: false
+
 streamer_deployment_spec: |
   containers:
   - name: liquidsoap
