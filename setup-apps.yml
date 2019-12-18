@@ -33,3 +33,8 @@
     - setup-apps
     - droppy
     when: app_droppy_enabled == true
+  - role: thelounge
+    tags: 
+    - setup-apps
+    - thelounge
+    when: app_thelounge_enabled == true

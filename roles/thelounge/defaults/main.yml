@@ -1,0 +1,23 @@
+---
+namespace: "thelounge"
+
+thelounge_domain: "irc.{{ main_domain }}"
+letsencrypt_env: "staging"
+
+thelounge_image: privyplace/thelounge:latest
+
+thelounge_deployment_spec: |
+  containers:
+  - name: thelounge
+    image: {{ thelounge_image }}
+    imagePullPolicy: Always
+    ports:
+    - containerPort: 9000
+      protocol: TCP
+    livenessProbe:
+      tcpSocket:
+        port: 9000
+    readinessProbe:
+      tcpSocket:
+        port: 9000
+

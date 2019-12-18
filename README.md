@@ -21,6 +21,7 @@ Additionnaly to the infrastucture, several apps are available to install on the 
 - [Searx](https://asciimoo.github.io/searx/) an internet metasearch engine 
 - [srt2hls](https://github.com/mbugeia/srt2hls) an audio HLS streaming server
 - [Droppy](https://github.com/silverwind/droppy) a file storage server with a web interface
+- [The Lounge](https://thelounge.chat/) a web IRC client
 
 ![Alt text](doc/img/portal.png?raw=true "Privy Place Portal")
 

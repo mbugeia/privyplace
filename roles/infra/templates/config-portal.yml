@@ -22,6 +22,11 @@ services:
     subtitle: "Upload and share files"
     url: "https://{{ droppy_domain }}"
 {% endif %}
+{% if app_thelounge_enabled == true %}  - name: "The Lounge"
+    logo: "/assets/privyplace/thelounge.png"
+    subtitle: "Web IRC client"
+    url: "https://{{ thelounge_domain }}"
+{% endif %}
 {% if monitoring_enabled == true %}
 - name: "Monitoring"
   icon: "fas fa-heartbeat"

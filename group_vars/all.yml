@@ -5,6 +5,7 @@ app_stream_enabled: true
 app_searx_enabled: true
 app_freshrss_enabled: true
 app_droppy_enabled: true
+app_thelounge_enabled: true
 
 base_image: privyplace/debian:v0.0.1
 nginx_image: privyplace/nginx:v0.0.1
@@ -25,3 +26,4 @@ searx_domain: "search.{{ main_domain }}"
 droppy_domain: "drop.{{ main_domain }}"
 freshrss_domain: "rss.{{ main_domain }}"
 streamer_domain: "stream.{{ main_domain }}"
+thelounge_domain: "irc.{{ main_domain }}"

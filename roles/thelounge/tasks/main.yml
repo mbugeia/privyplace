@@ -1,0 +1,27 @@
+---
+- include_tasks: ../k8s_common/namespace.yml
+  vars:
+    target_namespace: "{{ namespace }}"
+  tags:
+  - namespace
+
+- name: thelounge
+  block:
+  - include_tasks: ../k8s_common/service.yml
+    tags:
+    - service
+  - include_tasks: ../k8s_common/deployment.yml
+    tags:
+    - deployment
+  - include_tasks: ../k8s_common/ingress.yml
+    tags:
+    - ingress
+  vars:
+    app: thelounge
+    target_namespace: "{{ namespace }}"
+    serviceport: 9000
+    targetport: 9000
+    deployment_spec: "{{ thelounge_deployment_spec }}"
+    ingress_domain: "{{ thelounge_domain }}"
+  tags:
+  - thelounge
