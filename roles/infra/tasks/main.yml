@@ -98,3 +98,4 @@
     ingress_domain: "{{ portal_domain }}"
   tags:
   - portal
+  when: infra_portal_enabled == true

@@ -33,8 +33,3 @@
     - setup-apps
     - droppy
     when: app_droppy_enabled == true
-  - role: portal
-    tags: 
-    - setup-apps
-    - portal
-    when: app_portal_enabled == true
