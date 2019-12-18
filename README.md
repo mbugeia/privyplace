@@ -96,7 +96,7 @@ ansible-playbook -i inventory.yml privyplace.yml --diff
 
 ### First run configuration
 
-As for now, Organizr need to be configured manually. Once the deploy is finished, go to https://auth.yourdomain.tld.
+As for now, Organizr need to be configured manually. Once the deploy is finished, go to https://yourdomain.tld.
 
 You can then follow Organizr first time setup instructions https://docs.organizr.app/books/installation/page/first-time-setup
 
@@ -108,7 +108,7 @@ Here is the values you need to set to makes it work:
 
 ### Enjoy you self-hosted applications
 
-Go to https://yourdomain.tld
+Go to https://portal.yourdomain.tld
 
 ## Advanced Usage
 
