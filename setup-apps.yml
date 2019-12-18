@@ -8,6 +8,7 @@
     tags: 
     - setup-apps
     - setup-apps-dbs
+    when: app_freshrss_enabled == true
 
 - name: setup-apps
   hosts: master
@@ -16,15 +17,24 @@
     tags: 
     - setup-apps
     - stream
+    when: app_stream_enabled == true
   - role: searx
     tags: 
     - setup-apps
     - searx
+    when: app_searx_enabled == true
   - role: freshrss
     tags: 
     - setup-apps
     - freshrss
+    when: app_freshrss_enabled == true
   - role: droppy
     tags: 
     - setup-apps
     - droppy
+    when: app_droppy_enabled == true
+  - role: portal
+    tags: 
+    - setup-apps
+    - portal
+    when: app_portal_enabled == true

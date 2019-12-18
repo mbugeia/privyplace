@@ -1,4 +1,4 @@
 *.retry
 inventory.yml
-group_vars/*
+group_vars/privyplace.yml
 kube-prometheus

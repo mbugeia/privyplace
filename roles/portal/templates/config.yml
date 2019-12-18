@@ -1,0 +1,52 @@
+---
+title: "Privy Place"
+subtitle: "Home"
+logo: "assets/logo.png"
+
+services:
+- name: "Apps"
+  icon: "fas fa-code-branch"
+  items:
+{% if app_searx_enabled == true %}  - name: "Searx"
+    logo: "/assets/privyplace/searx.png"
+    subtitle: "Privacy-respecting metasearch engine"
+    url: "https://{{ searx_domain }}"
+{% endif %}
+{% if app_freshrss_enabled == true %}  - name: "FreshRSS"
+    logo: "/assets/privyplace/freshrss.png"
+    subtitle: "RSS feed aggregator"
+    url: "https://{{ freshrss_domain }}"
+{% endif %}
+{% if app_droppy_enabled == true %}  - name: "Droppy"
+    logo: "/assets/privyplace/droppy.png"
+    subtitle: "Upload and share files"
+    url: "https://{{ droppy_domain }}"
+{% endif %}
+{% if monitoring_enabled == true %}
+- name: "Monitoring"
+  icon: "fas fa-heartbeat"
+  items:
+  - name: "Grafana"
+    logo: "/assets/tools/grafana.png"
+    subtitle: "Metric analytics & dashboards"
+    url: "https://{{ grafana_domain }}"
+  - name: "Prometheus"
+    logo: "/assets/privyplace/prometheus.png"
+    subtitle: "Prometheus Web UI"
+    url: "https://{{ prometheus_domain }}"
+  - name: "Alertmanager"
+    icon: "fas fa-bell"
+    subtitle: "Alertmanager Web UI"
+    url: "https://{{ alertmanager_domain }}"
+{% endif %}
+- name: "Infra"
+  icon: "fas fa-network-wired"
+  items:
+  - name: "Portal"
+    icon: "fas fa-home"
+    subtitle: "Privy Place Portal"
+    url: "https://{{ portal_domain }}"
+  - name: "Organizr"
+    logo: "/assets/privyplace/organizr.png"
+    subtitle: "Privy Place Auth Service"
+    url: "https://{{ organizr_domain }}"

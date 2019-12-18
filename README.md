@@ -16,10 +16,13 @@ It makes use of several open-source software, mainly:
 
 Additionnaly to the infrastucture, several apps are available to install on the cluster, for now:
 
+- An application portal, based on [Homer](https://github.com/bastienwirtz/homer)
 - [FreshRSS](https://freshrss.org/) a great RSS aggregator
 - [Searx](https://asciimoo.github.io/searx/) an internet metasearch engine 
 - [srt2hls](https://github.com/mbugeia/srt2hls) an audio HLS streaming server
 - [Droppy](https://github.com/silverwind/droppy) a file storage server with a web interface
+
+![Alt text](doc/img/portal.png?raw=true "Privy Place Portal")
 
 ## SSO and ingress protection
 
@@ -62,7 +65,7 @@ Then edit `inventory.yml` and replace YOURDOMAIN by your real domain name.
 
 
 #### Customize your installation
-Edit the file `group_vars/all` to configure secret.
+Common default value are in `group_vars/all.yml`, you can overide them in `group_vars/privyplace.yml`, some options need to be set:
 
 ```
 # mains options
@@ -77,19 +80,9 @@ freshrss_db_password: freshrsspassword
 # shh public key to connect to ansible-executor
 authorized_keys: |
   ssh-rsa your ssh public key
-
-# docker images, use latest images if ommited
-base_image: privyplace/debian:v0.0.1
-nginx_image: privyplace/nginx:v0.0.1
-sshd_image: privyplace/sshd:v0.0.1
-organizr_image: privyplace/organizr:v0.0.1
-freshrss_image: privyplace/freshrss:v0.0.1
-searx_image: privyplace/searx:v0.0.1
-droppy_image: privyplace/droppy:v0.0.1
 ```
-You can also override default value here like `freshrss_domain: "myrssdomain.tld"`.
 
-Edit the file `setup-apps.yml`, here you can comment or remove all the applications you dont want.
+You can override default value here like `freshrss_domain: "myrssdomain.tld"` or disable app by setting `app_freshrss_enabled: false`.
 
 ### Deploy
 ```
@@ -110,7 +103,7 @@ Here is the values you need to set to makes it work:
 
 ### Enjoy you self-hosted applications
 
-By default you will have access to theses urls. All of theses can be overriden in `group_vars/all`.
+By default you will have access to theses urls. All of theses can be overriden in `group_vars/privyplace.yml`.
 
 #### Monitoring stack
 https://monitoring.YOURDOMAIN.TLD
@@ -118,6 +111,10 @@ https://monitoring.YOURDOMAIN.TLD
 https://prometheus.YOURDOMAIN.TLD
 
 https://alertmanager.YOURDOMAIN.TLD
+
+**Portal**
+
+https://portal.YOURDOMAIN.TLD
 
 **Searx**
 

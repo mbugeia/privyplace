@@ -9,3 +9,4 @@
     tags: 
     - setup-cluster
     - monitoring
+    when: monitoring_enabled == true

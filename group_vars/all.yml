@@ -1,0 +1,28 @@
+
+
+monitoring_enabled: true
+app_stream_enabled: true
+app_searx_enabled: true
+app_freshrss_enabled: true
+app_droppy_enabled: true
+app_portal_enabled: true
+
+base_image: privyplace/debian:v0.0.1
+nginx_image: privyplace/nginx:v0.0.1
+sshd_image: privyplace/sshd:v0.0.1
+organizr_image: privyplace/organizr:v0.0.1
+freshrss_image: privyplace/freshrss:v0.0.1
+searx_image: privyplace/searx:v0.0.1
+droppy_image: privyplace/droppy:v0.0.1
+portal_image: privyplace/privyplaceportal:v0.0.1
+
+alertmanager_domain: "alertmanager.{{ main_domain }}"
+grafana_domain: "monitoring.{{ main_domain }}"
+prometheus_domain: "prometheus.{{ main_domain }}"
+
+organizr_domain: "{{ main_domain }}"
+portal_domain: "portal.{{ main_domain }}"
+searx_domain: "search.{{ main_domain }}"
+droppy_domain: "drop.{{ main_domain }}"
+freshrss_domain: "rss.{{ main_domain }}"
+streamer_domain: "stream.{{ main_domain }}"
