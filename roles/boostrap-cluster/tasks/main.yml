@@ -18,9 +18,9 @@
     configmap_name: "nginx-configuration"
     app: ingress-nginx
     configmap_values:
-      global-auth-url: "https://{{ organizr_domain }}/auth-0"
-      global-auth-signin: "https://{{ organizr_domain }}"
-      global-auth-response-headers: "x-organizr-user"
+      global-auth-url: "https://{{ auth_domain }}/auth-0"
+      global-auth-signin: "https://{{ auth_domain }}"
+      global-auth-response-headers: "{{ auth_headers }}"
   tags:
   - configmap
 

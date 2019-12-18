@@ -25,7 +25,7 @@
     target_namespace: "{{ namespace }}"
     configmap_name: sshd-authorized-keys
     configmap_files:
-      authorized_keys: "{{ authorized_keys }}"
+      authorized_keys: "{{ sshd_authorized_keys }}"
     serviceport: 22
     targetport: 22
     nodeport: "{{ sshd_nodeport }}"
@@ -63,3 +63,38 @@
       nginx.ingress.kubernetes.io/enable-global-auth: "false"
   tags:
   - organizr
+
+- name: portal
+  block:
+  - include_tasks: ../k8s_common/configmap.yml
+    vars:
+      configmap_name: nginx-portal
+      configmap_files:
+        portal.conf: "{{ lookup('template', 'nginx-portal.conf', split_lines=False) }}"
+    tags:
+    - configmap
+  - include_tasks: ../k8s_common/configmap.yml
+    vars:
+      configmap_name: config-portal
+      configmap_files:
+        config.yml: "{{ lookup('template', 'config-portal.yml', split_lines=False) }}"
+    tags:
+    - configmap
+  - include_tasks: ../k8s_common/service.yml
+    tags:
+    - service
+  - include_tasks: ../k8s_common/deployment.yml
+    tags:
+    - deployment
+  - include_tasks: ../k8s_common/ingress.yml
+    tags:
+    - ingress
+  vars:
+    app: portal
+    target_namespace: "{{ namespace }}"
+    serviceport: 8080
+    targetport: 8080
+    deployment_spec: "{{ portal_deployment_spec }}"
+    ingress_domain: "{{ portal_domain }}"
+  tags:
+  - portal

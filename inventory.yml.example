@@ -2,13 +2,13 @@ all:
   hosts:
     master:
       ansible_port: 22
-      ansible_host: YOURDOMAIN
+      ansible_host: yourdomain.tld # TO REPLACE
       ansible_user: root
       ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
       ansible_python_interpreter: /usr/bin/python3
     ansible-executor:
       ansible_port: 30000
-      ansible_host: YOURDOMAIN
+      ansible_host: yourdomain.tld # TO REPLACE
       ansible_user: root
       ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
       ansible_python_interpreter: /usr/bin/python3

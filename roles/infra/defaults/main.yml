@@ -1,9 +1,20 @@
 ---
 namespace: "infra"
 
+auth_domain: "auth.{{ main_domain }}"
+portal_domain: "{{ main_domain }}"
+organizr_domain: "{{ auth_domain }}"
+
+
 sshd_image: privyplace/sshd:latest
+nginx_image: privyplace/nginx:latest
+organizr_image: privyplace/organizr:latest
+portal_image: privyplace/privyplaceportal:latest
+
 sshd_nodeport: 30000
-authorized_keys: ""
+sshd_authorized_keys: ""
+
+organizr_statefulset_storage: 100M
 
 sshd_deployment_spec: |
   containers:
@@ -27,11 +38,6 @@ sshd_deployment_spec: |
   - name: sshd-authorized-keys
     configMap:
       name: sshd-authorized-keys
-
-organizr_image: privyplace/organizr:latest
-organizr_domain: "{{ main_domain }}"
-nginx_image: privyplace/nginx:latest
-organizr_statefulset_storage: 100M
 
 organizr_statefulset_spec: |
   containers:
@@ -81,3 +87,32 @@ organizr_statefulset_spec: |
   - name: nginx-organizr
     configMap:
       name: nginx-organizr
+
+portal_deployment_spec: |
+  containers:
+  - name: liquidsoap
+    image: {{ portal_image }}
+    imagePullPolicy: Always
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: 8080
+    readinessProbe:
+      httpGet:
+        path: /healthz
+        port: 8080
+    ports:
+    - containerPort: 8080
+      protocol: TCP
+    volumeMounts:
+    - name: nginx-portal
+      mountPath: /etc/nginx/conf.d
+    - name: config-portal
+      mountPath: /etc/portal
+  volumes:
+  - name: nginx-portal
+    configMap:
+      name: nginx-portal
+  - name: config-portal
+    configMap:
+      name: config-portal

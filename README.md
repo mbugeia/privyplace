@@ -51,8 +51,8 @@ cd privyplace
 - Firewall rules to allow ports 80 and 443 from internet
 - A domain with DNS configured to point to your server, for example
 ```
-YOURDOMAIN.TLD. 300 IN A yourserveripv4
-*.YOURDOMAIN.TLD. 300 IN A yourserveripv4
+yourdomain.tld. 300 IN A yourserveripv4
+*.yourdomain.tld. 300 IN A yourserveripv4
 ```
 
 ### Configure
@@ -61,7 +61,7 @@ YOURDOMAIN.TLD. 300 IN A yourserveripv4
 
 `cp inventory.yml.example inventory.yml`
 
-Then edit `inventory.yml` and replace YOURDOMAIN by your real domain name.
+Then edit `inventory.yml` and replace `yourdomain.tld` by your real domain name.
 
 
 #### Customize your installation
@@ -71,7 +71,7 @@ Common default value are in `group_vars/all.yml`, you can overide them in `group
 # mains options
 letsencrypt_email: "youremail@example.com"
 letsencrypt_env: # staging or prod
-main_domain: YOURDOMAIN.TLD
+main_domain: yourdomain.tld
 
 # passwords
 postgres_password: postgresmasterpassword
@@ -91,7 +91,7 @@ ansible-playbook -i inventory.yml privyplace.yml --diff
 
 ### First run configuration
 
-As for now, Organizr need to be configured manually. Once the deploy is finished, go to https://YOURDOMAIN.TLD.
+As for now, Organizr need to be configured manually. Once the deploy is finished, go to https://auth.yourdomain.tld.
 
 You can then follow Organizr first time setup instructions https://docs.organizr.app/books/installation/page/first-time-setup
 
@@ -103,34 +103,7 @@ Here is the values you need to set to makes it work:
 
 ### Enjoy you self-hosted applications
 
-By default you will have access to theses urls. All of theses can be overriden in `group_vars/privyplace.yml`.
-
-#### Monitoring stack
-https://monitoring.YOURDOMAIN.TLD
-
-https://prometheus.YOURDOMAIN.TLD
-
-https://alertmanager.YOURDOMAIN.TLD
-
-**Portal**
-
-https://portal.YOURDOMAIN.TLD
-
-**Searx**
-
-https://search.YOURDOMAIN.TLD
-
-**FreshRSS**
-
-https://rss.YOURDOMAIN.TLD
-
-**Stream**
-
-ffplay https://stream.YOURDOMAIN.TLD/live.m3u8
-
-**Droppy**
-
-https://drop.YOURDOMAIN.TLD
+Go to https://yourdomain.tld
 
 ## Advanced Usage
 
