@@ -171,11 +171,10 @@ jb install github.com/coreos/kube-prometheus/jsonnet/kube-prometheus
 
 ```
 export DOCKER_ID_USER="privyplace"
-cd docker
 # build and push latest php/* images
-./build.sh debian/php
+./docker-build.sh docker/debian/php
 # make a clean release and push all debian images
-./build.sh debian v0.0.1
+./docker-build.sh docker/debian v0.0.1
 ```
 
 ## Knows issues
