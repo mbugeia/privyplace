@@ -3,7 +3,10 @@ namespace: "db"
 
 postgres_image: postgres:12
 postgres_password: None
-postgres_statefulset_storage: 500M
+
+postgres_volumeclaimtemplates:
+  postgres:
+    storage: "500M"
 
 postgres_statefulset_spec: |
   containers:

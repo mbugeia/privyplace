@@ -29,7 +29,7 @@
     serviceport: 8080
     targetport: 8080
     statefulset_spec: "{{ freshrss_statefulset_spec }}"
-    statefulset_storage: "{{ freshrss_statefulset_storage }}"
+    volumeclaimtemplates: "{{ freshrss_volumeclaimtemplates }}"
     ingress_domain: "{{ freshrss_domain }}"
     ingress_annotations:
       nginx.ingress.kubernetes.io/enable-global-auth: "false"

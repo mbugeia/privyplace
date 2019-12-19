@@ -19,6 +19,6 @@
     serviceport: 5432
     targetport: 5432
     statefulset_spec: "{{ postgres_statefulset_spec }}"
-    statefulset_storage: "{{ postgres_statefulset_storage }}"
+    volumeclaimtemplates: "{{ postgres_volumeclaimtemplates }}"
   tags:
   - postgresql

@@ -6,7 +6,9 @@ letsencrypt_env: "staging"
 
 droppy_image: privyplace/droppy:latest
 
-droppy_statefulset_storage: 5G
+droppy_volumeclaimtemplates:
+  droppy:
+    storage: "5G"
 
 droppy_statefulset_spec: |
   containers:

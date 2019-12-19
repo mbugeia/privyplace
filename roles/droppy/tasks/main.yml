@@ -33,7 +33,7 @@
     serviceport: 8989
     targetport: 8989
     statefulset_spec: "{{ droppy_statefulset_spec }}"
-    statefulset_storage: "{{ droppy_statefulset_storage }}"
+    volumeclaimtemplates: "{{ droppy_volumeclaimtemplates }}"
     ingress_domain: "{{ droppy_domain }}"
   tags:
   - droppy

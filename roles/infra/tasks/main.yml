@@ -57,7 +57,7 @@
     serviceport: 8080
     targetport: 8080
     statefulset_spec: "{{ organizr_statefulset_spec }}"
-    statefulset_storage: "{{ organizr_statefulset_storage }}"
+    volumeclaimtemplates: "{{ organizr_volumeclaimtemplates }}"
     ingress_domain: "{{ organizr_domain }}"
     ingress_annotations:
       nginx.ingress.kubernetes.io/enable-global-auth: "false"

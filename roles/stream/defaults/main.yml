@@ -1,11 +1,24 @@
 ---
 namespace: "stream"
 
+app_liquidsoapstream_enabled: true
+app_mstream_enabled: true
+
 streamer_domain: "stream.{{ main_domain }}"
-letsencrypt_env: "staging"
+mstream_domain: "music.{{ main_domain }}"
 
 liquidsoap_image: privyplace/liquidsoap:master-1.5.0-2462
 nginx_image: privyplace/nginx:latest
+mstream_image: privyplace/mstream:latest
+
+mstream_storage_data: 200M
+mstream_storage_music: 10Gi
+mstream_volumeclaimtemplates:
+  mstream:
+    storage: "{{ mstream_storage_data }}"
+  music:
+    storageclass: host-path
+    storage: "{{ mstream_storage_music }}"
 
 liquidsoap_script: "{{ lookup('url', 'https://raw.githubusercontent.com/mbugeia/srt2hls/v0.0.1/radio/live.liq', split_lines=False) }}"
 liquidsoap_nginx_conf: "{{ lookup('url', 'https://raw.githubusercontent.com/mbugeia/srt2hls/v0.0.1/nginxhls/stream.conf', split_lines=False) | regex_replace('liquidsoap', 'localhost')}}"
@@ -64,3 +77,20 @@ streamer_deployment_spec: |
   - name: nginx-stream
     configMap:
       name: nginx-stream
+
+mstream_statefulset_spec: |
+  containers:
+  - name: mstream
+    image: {{ mstream_image }}
+    imagePullPolicy: Always
+    ports:
+    - containerPort: 3000
+      protocol: TCP
+    readinessProbe:
+      tcpSocket:
+        port: 3000
+    volumeMounts:
+    - name: mstream
+      mountPath: /data
+    - mountPath: /music
+      name: music

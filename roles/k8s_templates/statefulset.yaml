@@ -34,14 +34,16 @@ spec:
         app.kubernetes.io/managed-by: privyplace
     spec:
       {{ statefulset_spec | indent(width=6) }}
-{% if statefulset_storage is defined %}
+{% if volumeclaimtemplates is defined %}
   volumeClaimTemplates:
+{% for volumeclaimtemplate, templatespec in volumeclaimtemplates.items() %}
   - metadata:
-      name: {{ statefulset_storage_name | default(app)}}
+      name: {{ volumeclaimtemplate }}
     spec:
-      accessModes: [ "{{ storageclass_accessmode | default('ReadWriteOnce')}}" ]
-      storageClassName: "{{ storageclass_name | default('local-path')}}"
+      accessModes: [ "{{ templatespec.accessmode | default('ReadWriteOnce')}}" ]
+      storageClassName: "{{ templatespec.storageclass | default('local-path')}}"
       resources:
         requests:
-          storage: {{ statefulset_storage }}
+          storage: {{ templatespec.storage }}
+{% endfor %}
 {% endif %}

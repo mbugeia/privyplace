@@ -11,7 +11,9 @@ freshrss_user: admin
 freshrss_language: en
 freshrss_db_password: MySecretPassword
 
-freshrss_statefulset_storage: 100M
+freshrss_volumeclaimtemplates:
+  freshrss:
+    storage: "100M"
 
 freshrss_statefulset_spec: |
   initContainers:

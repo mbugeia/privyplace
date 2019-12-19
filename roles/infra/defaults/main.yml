@@ -14,7 +14,9 @@ portal_image: privyplace/privyplaceportal:latest
 sshd_nodeport: 30000
 sshd_authorized_keys: ""
 
-organizr_statefulset_storage: 100M
+organizr_volumeclaimtemplates:
+  organizr:
+    storage: "100M"
 
 sshd_deployment_spec: |
   containers:
