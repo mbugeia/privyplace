@@ -1,7 +1,8 @@
 
 infra_portal_enabled: true
 monitoring_enabled: true
-app_stream_enabled: true
+app_liquidsoapstream_enabled: true
+app_mstream_enabled: true
 app_searx_enabled: true
 app_freshrss_enabled: true
 app_droppy_enabled: true
@@ -16,6 +17,7 @@ searx_image: privyplace/searx:v0.0.1
 droppy_image: privyplace/droppy:v0.0.1
 portal_image: privyplace/privyplaceportal:v0.0.1
 thelounge_image: privyplace/thelounge:v0.0.1
+mstream_image: privyplace/mstream:v0.0.1
 
 alertmanager_domain: "alertmanager.{{ main_domain }}"
 grafana_domain: "monitoring.{{ main_domain }}"
@@ -28,3 +30,4 @@ droppy_domain: "drop.{{ main_domain }}"
 freshrss_domain: "rss.{{ main_domain }}"
 streamer_domain: "stream.{{ main_domain }}"
 thelounge_domain: "irc.{{ main_domain }}"
+mstream_domain: "music.{{ main_domain }}"

@@ -4,6 +4,7 @@
     target_namespace: "{{ namespace }}"
   tags:
   - namespace
+  when: app_liquidsoapstream_enabled or app_mstream_enabled == true
 
 - name: liquidsoap-streamer
   block:
@@ -83,3 +84,33 @@
       nginx.ingress.kubernetes.io/enable-global-auth: "false"
   tags:
   - liquidsoap-streamer
+  when: app_liquidsoapstream_enabled == true
+
+- name: mstream
+  block:
+  - include_tasks: ../k8s_common/service.yml
+    tags:
+    - service
+  - include_tasks: ../k8s_common/pv.yml
+    tags:
+    - service
+  - include_tasks: ../k8s_common/statefulset.yml
+    tags:
+    - statefulset
+  - include_tasks: ../k8s_common/ingress.yml
+    tags:
+    - ingress
+  vars:
+    app: mstream
+    target_namespace: "{{ namespace }}"
+    serviceport: 3000
+    targetport: 3000
+    statefulset_spec: "{{ mstream_statefulset_spec }}"
+    ingress_domain: "{{ mstream_domain }}"
+    pv_name: "music"
+    pv_storage: "{{ mstream_storage_music }}"
+    pv_path: /music
+    volumeclaimtemplates: "{{ mstream_volumeclaimtemplates }}"
+  tags:
+  - mstream
+  when: app_mstream_enabled == true

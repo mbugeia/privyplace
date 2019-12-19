@@ -17,7 +17,6 @@
     tags: 
     - setup-apps
     - stream
-    when: app_stream_enabled == true
   - role: searx
     tags: 
     - setup-apps

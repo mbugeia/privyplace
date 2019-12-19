@@ -1,0 +1,20 @@
+{
+  "port": 3000,
+  "webAppDirectory": "/usr/lib/node_modules/mstream/public",
+  "secret": "SECRET_TO_REPLACE",
+  "writeLogs": false,
+  "noUpload": false,
+  "storage": {
+    "albumArtDirectory": "/data/album-art",
+    "dbDirectory": "/data/db",
+    "logsDirectory": "/data/logs"
+  },
+  "folders": {
+    "music": { "root": "/music"}
+  },
+  "transcode": {
+    "enabled": true,
+    "defaultCodec": "aac",
+    "defaultBitrate": "192k"
+  }
+}
