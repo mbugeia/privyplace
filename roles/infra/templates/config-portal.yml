@@ -65,3 +65,7 @@ services:
     logo: "/assets/privyplace/organizr.png"
     subtitle: "Privy Place Auth Service"
     url: "https://{{ organizr_domain }}"
+  - name: "Adminer"
+    icon: "fas fa-database"
+    subtitle: "Database management"
+    url: "https://{{ adminer_domain }}"

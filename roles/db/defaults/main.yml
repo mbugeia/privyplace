@@ -2,6 +2,11 @@
 namespace: "db"
 
 postgres_image: postgres:12
+nginx_image: privyplace/nginx:latest
+adminer_image: privyplace/adminer:latest
+
+adminer_domain: "adminer.{{ main_domain }}"
+
 postgres_password: None
 
 postgres_volumeclaimtemplates:
@@ -30,3 +35,39 @@ postgres_statefulset_spec: |
     volumeMounts:
     - name: postgres
       mountPath: /data
+
+adminer_deployment_spec: |
+  containers:
+  - name: php
+    image: {{ adminer_image }}
+    imagePullPolicy: Always
+    livenessProbe:
+      tcpSocket:
+        port: 9000
+    readinessProbe:
+      tcpSocket:
+        port: 9000
+    ports:
+    - containerPort: 9000
+      protocol: TCP
+  - name: nginx
+    image: {{ nginx_image }}
+    imagePullPolicy: Always
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: 8080
+    readinessProbe:
+      httpGet:
+        path: /healthz
+        port: 8080
+    ports:
+    - containerPort: 8080
+      protocol: TCP
+    volumeMounts:
+    - name: nginx-adminer
+      mountPath: /etc/nginx/conf.d
+  volumes:
+  - name: nginx-adminer
+    configMap:
+      name: nginx-adminer

@@ -22,3 +22,31 @@
     volumeclaimtemplates: "{{ postgres_volumeclaimtemplates }}"
   tags:
   - postgresql
+
+- name: adminer
+  block:
+  - include_tasks: ../k8s_common/configmap.yml
+    vars:
+      configmap_name: "nginx-{{ app }}"
+      configmap_files:
+        php.conf: "{{ lookup('template', 'nginx-adminer.conf', split_lines=False) }}"
+    tags:
+    - configmap
+  - include_tasks: ../k8s_common/service.yml
+    tags:
+    - service
+  - include_tasks: ../k8s_common/deployment.yml
+    tags:
+    - deployment
+  - include_tasks: ../k8s_common/ingress.yml
+    tags:
+    - ingress
+  vars:
+    app: adminer
+    target_namespace: "{{ namespace }}"
+    serviceport: 8080
+    targetport: 8080
+    deployment_spec: "{{ adminer_deployment_spec }}"
+    ingress_domain: "{{ adminer_domain }}"
+  tags:
+  - adminer

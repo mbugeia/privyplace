@@ -24,6 +24,7 @@ Additionnaly to the infrastucture, several apps are available to install on the 
 - [The Lounge](https://thelounge.chat/) a web IRC client
 - [mStream](https://mstream.io/) a music streaming server
 - [Shiori](https://github.com/go-shiori/shiori) a simple bookmark manager
+- [Adminer](https://www.adminer.org/) for database management
 
 ![Alt text](doc/img/portal.png?raw=true "Privy Place Portal")
 

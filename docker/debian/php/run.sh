@@ -11,9 +11,6 @@ then
   unzip /tmp/www.zip -d /tmp/www
   cp -r /tmp/www/*/* /www
   rm -f /tmp/www.zip
-else
-  echo "Error, nothing to run."
-  exit 1
 fi
 
 if [ -f /prerun.sh ]
