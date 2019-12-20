@@ -110,7 +110,7 @@ portal_deployment_spec: |
     - name: nginx-portal
       mountPath: /etc/nginx/conf.d
     - name: config-portal
-      mountPath: /etc/portal
+      mountPath: /www/config
   volumes:
   - name: nginx-portal
     configMap:
