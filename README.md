@@ -23,6 +23,7 @@ Additionnaly to the infrastucture, several apps are available to install on the 
 - [Droppy](https://github.com/silverwind/droppy) a file storage server with a web interface
 - [The Lounge](https://thelounge.chat/) a web IRC client
 - [mStream](https://mstream.io/) a music streaming server
+- [Shiori](https://github.com/go-shiori/shiori) a simple bookmark manager
 
 ![Alt text](doc/img/portal.png?raw=true "Privy Place Portal")
 

@@ -32,6 +32,11 @@ services:
     subtitle: "Music streaming server"
     url: "https://{{ mstream_domain }}"
 {% endif %}
+{% if app_shiori_enabled == true %}  - name: "Shiori"
+    logo: "/assets/privyplace/shiori.png"
+    subtitle: "Simple bookmark manager"
+    url: "https://{{ shiori_domain }}"
+{% endif %}
 {% if monitoring_enabled == true %}
 - name: "Monitoring"
   icon: "fas fa-heartbeat"

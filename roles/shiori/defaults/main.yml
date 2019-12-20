@@ -1,0 +1,42 @@
+---
+namespace: "shiori"
+
+shiori_domain: "links.{{ main_domain }}"
+letsencrypt_env: "staging"
+
+shiori_image: privyplace/shiori:latest
+
+shiori_volumeclaimtemplates:
+  shiori:
+    storage: "500M"
+
+shiori_db_password: MySecretPassword
+
+shiori_statefulset_spec: |
+  containers:
+  - name: shiori
+    image: {{ shiori_image }}
+    imagePullPolicy: Always
+    ports:
+    - containerPort: 8080
+      protocol: TCP
+    readinessProbe:
+      tcpSocket:
+        port: 8080
+    volumeMounts:
+    - name: shiori
+      mountPath: /data
+    env:
+    - name: SHIORI_DBMS
+      value: "postgresql"
+    - name: SHIORI_PG_USER
+      value: "shiori"
+    - name: SHIORI_PG_PASS
+      value: "{{ shiori_db_password }}"
+    - name: SHIORI_PG_NAME
+      value: "shiori"
+    - name: SHIORI_PG_HOST
+      value: "postgres.db"
+    - name: SHIORI_PG_PORT
+      value: "5432"
+

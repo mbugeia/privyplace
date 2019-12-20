@@ -1,6 +1,6 @@
 FROM privyplace/nginx:latest
 
-ENV PORTAL_VERSION=35b33bc6dbf99ac421c170af9164519fbb9575a0
+ENV PORTAL_VERSION=ecfb3df0e7f711da29de9c360c5fa64cc6f08815
 
 RUN set -eux \
     && mkdir -p /www \

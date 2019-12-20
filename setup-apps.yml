@@ -8,7 +8,16 @@
     tags: 
     - setup-apps
     - setup-apps-dbs
-    when: app_freshrss_enabled == true
+  - include: roles/db/tasks/postgres_db.yml
+    vars:
+      db_name: "shiori"
+      db_password: "{{ shiori_db_password }}"
+    tags: 
+    - setup-apps
+    - setup-apps-dbs
+    when: app_shiori_enabled == true
+
+
 
 - name: setup-apps
   hosts: master
@@ -37,3 +46,8 @@
     - setup-apps
     - thelounge
     when: app_thelounge_enabled == true
+  - role: shiori
+    tags: 
+    - setup-apps
+    - shiori
+    when: app_shiori_enabled == true
