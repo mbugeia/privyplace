@@ -1,0 +1,46 @@
+---
+namespace: "plume"
+
+plume_domain: "blog.{{ main_domain }}"
+letsencrypt_env: "staging"
+
+plume_image: privyplace/plume:latest
+
+plume_db_password: MySecretPassword
+
+plume_env: |
+  BASE_URL="{{ plume_domain }}"
+  DATABASE_URL="postgres://plume:{{ plume_db_password }}@postgres.db/plume"
+  MIGRATION_DIRECTORY="/www/migrations/postgres"
+  SEARCH_INDEX="/www/search_index"
+
+plume_deployment_spec: |
+  containers:
+  - name: plume
+    image: {{ plume_image }}
+    imagePullPolicy: Always
+    args:
+    - "sleep"
+    - "500000"
+    env:
+    - name: BASE_URL
+      value: "{{ plume_domain }}"
+    - name: DATABASE_URL
+      value: "postgres://plume:{{ plume_db_password }}@postgres.db/plume"
+    - name: MIGRATION_DIRECTORY
+      value: "/www/migrations/postgres"
+    - name: SEARCH_INDEX
+      value: "/www/search_index"
+    volumeMounts:
+    - mountPath: /etc/plume
+      name: plume
+    ports:
+    - containerPort: 7878
+      protocol: TCP
+    # readinessProbe:
+    #   tcpSocket:
+    #     port: 7878
+  volumes:
+  - name: plume
+    configMap:
+      name: plume

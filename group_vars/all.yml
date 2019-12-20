@@ -8,6 +8,7 @@ app_freshrss_enabled: true
 app_droppy_enabled: true
 app_thelounge_enabled: true
 app_shiori_enabled: true
+app_plume_enabled: true
 
 base_image: privyplace/debian:v0.0.1
 nginx_image: privyplace/nginx:v0.0.1
@@ -21,6 +22,7 @@ thelounge_image: privyplace/thelounge:v0.0.1
 mstream_image: privyplace/mstream:v0.0.1
 shiori_image: privyplace/shiori:v0.0.1
 adminer_image: privyplace/adminer:v0.0.1
+plume_image: privyplace/plume:v0.0.1
 
 alertmanager_domain: "alertmanager.{{ main_domain }}"
 grafana_domain: "monitoring.{{ main_domain }}"
@@ -36,3 +38,4 @@ thelounge_domain: "irc.{{ main_domain }}"
 mstream_domain: "music.{{ main_domain }}"
 shiori_domain: "links.{{ main_domain }}"
 adminer_domain: "adminer.{{ main_domain }}"
+plume_domain: "blog.{{ main_domain }}"
