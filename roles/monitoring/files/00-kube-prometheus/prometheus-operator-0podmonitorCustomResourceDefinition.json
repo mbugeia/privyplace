@@ -2,6 +2,9 @@
    "apiVersion": "apiextensions.k8s.io/v1beta1",
    "kind": "CustomResourceDefinition",
    "metadata": {
+      "annotations": {
+         "controller-gen.kubebuilder.io/version": "v0.2.4"
+      },
       "creationTimestamp": null,
       "name": "podmonitors.monitoring.coreos.com"
    },
@@ -9,11 +12,15 @@
       "group": "monitoring.coreos.com",
       "names": {
          "kind": "PodMonitor",
-         "plural": "podmonitors"
+         "listKind": "PodMonitorList",
+         "plural": "podmonitors",
+         "singular": "podmonitor"
       },
+      "preserveUnknownFields": false,
       "scope": "Namespaced",
       "validation": {
          "openAPIV3Schema": {
+            "description": "PodMonitor defines monitoring for a set of pods.",
             "properties": {
                "apiVersion": {
                   "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
@@ -23,15 +30,18 @@
                   "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
                   "type": "string"
                },
+               "metadata": {
+                  "type": "object"
+               },
                "spec": {
-                  "description": "PodMonitorSpec contains specification parameters for a PodMonitor.",
+                  "description": "Specification of desired Pod selection for target discovery by Prometheus.",
                   "properties": {
                      "jobLabel": {
                         "description": "The label to use to retrieve the job name from.",
                         "type": "string"
                      },
                      "namespaceSelector": {
-                        "description": "NamespaceSelector is a selector for selecting either all namespaces or a list of namespaces.",
+                        "description": "Selector to select which namespaces the Endpoints objects are discovered from.",
                         "properties": {
                            "any": {
                               "description": "Boolean describing whether all namespaces are selected in contrast to a list restricting them.",
@@ -79,7 +89,7 @@
                                           "type": "integer"
                                        },
                                        "regex": {
-                                          "description": "Regular expression against which the extracted value is matched. defailt is '(.*)'",
+                                          "description": "Regular expression against which the extracted value is matched. Default is '(.*)'",
                                           "type": "string"
                                        },
                                        "replacement": {
@@ -107,6 +117,12 @@
                                  "type": "array"
                               },
                               "params": {
+                                 "additionalProperties": {
+                                    "items": {
+                                       "type": "string"
+                                    },
+                                    "type": "array"
+                                 },
                                  "description": "Optional HTTP URL parameters",
                                  "type": "object"
                               },
@@ -137,7 +153,7 @@
                                           "type": "integer"
                                        },
                                        "regex": {
-                                          "description": "Regular expression against which the extracted value is matched. defailt is '(.*)'",
+                                          "description": "Regular expression against which the extracted value is matched. Default is '(.*)'",
                                           "type": "string"
                                        },
                                        "replacement": {
@@ -175,12 +191,14 @@
                               "targetPort": {
                                  "anyOf": [
                                     {
-                                       "type": "string"
+                                       "type": "integer"
                                     },
                                     {
-                                       "type": "integer"
+                                       "type": "string"
                                     }
-                                 ]
+                                 ],
+                                 "description": "Name or number of the target port of the endpoint. Mutually exclusive with port.",
+                                 "x-kubernetes-int-or-string": true
                               }
                            },
                            "type": "object"
@@ -200,7 +218,7 @@
                         "type": "integer"
                      },
                      "selector": {
-                        "description": "A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all objects. A null label selector matches no objects.",
+                        "description": "Selector to select Pod objects.",
                         "properties": {
                            "matchExpressions": {
                               "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
@@ -232,6 +250,9 @@
                               "type": "array"
                            },
                            "matchLabels": {
+                              "additionalProperties": {
+                                 "type": "string"
+                              },
                               "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
                               "type": "object"
                            }
@@ -246,9 +267,27 @@
                   "type": "object"
                }
             },
+            "required": [
+               "spec"
+            ],
             "type": "object"
          }
       },
-      "version": "v1"
+      "version": "v1",
+      "versions": [
+         {
+            "name": "v1",
+            "served": true,
+            "storage": true
+         }
+      ]
+   },
+   "status": {
+      "acceptedNames": {
+         "kind": "",
+         "plural": ""
+      },
+      "conditions": [ ],
+      "storedVersions": [ ]
    }
 }
