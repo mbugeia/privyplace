@@ -31,7 +31,5 @@
     statefulset_spec: "{{ freshrss_statefulset_spec }}"
     volumeclaimtemplates: "{{ freshrss_volumeclaimtemplates }}"
     ingress_domain: "{{ freshrss_domain }}"
-    ingress_annotations:
-      nginx.ingress.kubernetes.io/enable-global-auth: "false"
   tags:
   - freshrss
