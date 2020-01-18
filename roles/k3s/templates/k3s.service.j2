@@ -22,4 +22,5 @@ ExecStartPre=-/sbin/modprobe overlay
 ExecStart=/usr/local/bin/k3s \
     server \
     --no-deploy traefik \
-    --no-deploy metrics-server
+    --no-deploy metrics-server \
+    --kubelet-arg containerd=/run/k3s/containerd/containerd.sock

@@ -161,4 +161,4 @@ export DOCKER_ID_USER="privyplace"
 
 ## Knows issues
 
-Some monitoring dashboard are broken because of https://github.com/rancher/k3s/issues/473
+- SSO doesn't redirect back to the app after login
