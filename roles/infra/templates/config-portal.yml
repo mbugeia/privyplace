@@ -37,6 +37,11 @@ services:
     subtitle: "Simple bookmark manager"
     url: "https://{{ shiori_domain }}"
 {% endif %}
+{% if app_plume_enabled == true %}  - name: "Plume"
+    logo: "/assets/privyplace/plume.png"
+    subtitle: "Federated blogging engine"
+    url: "https://{{ plume_domain }}"
+{% endif %}
 {% if monitoring_enabled == true %}
 - name: "Monitoring"
   icon: "fas fa-heartbeat"

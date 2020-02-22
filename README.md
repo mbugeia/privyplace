@@ -25,6 +25,7 @@ Additionnaly to the infrastucture, several apps are available to install on the 
 - [mStream](https://mstream.io/) a music streaming server
 - [Shiori](https://github.com/go-shiori/shiori) a simple bookmark manager
 - [Adminer](https://www.adminer.org/) for database management
+- [Plume](https://joinplu.me/) a federated blogging engine
 
 ![Alt text](doc/img/portal.png?raw=true "Privy Place Portal")
 

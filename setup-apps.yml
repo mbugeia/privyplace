@@ -16,7 +16,14 @@
     - setup-apps
     - setup-apps-dbs
     when: app_shiori_enabled == true
-
+  - include: roles/db/tasks/postgres_db.yml
+    vars:
+      db_name: "plume"
+      db_password: "{{ plume_db_password }}"
+    tags: 
+    - setup-apps
+    - setup-apps-dbs
+    when: app_plume_enabled == true
 
 
 - name: setup-apps
@@ -51,3 +58,8 @@
     - setup-apps
     - shiori
     when: app_shiori_enabled == true
+  - role: plume
+    tags: 
+    - setup-apps
+    - plume
+    when: app_plume_enabled == true

@@ -1,0 +1,33 @@
+---
+- include_tasks: ../k8s_common/namespace.yml
+  vars:
+    target_namespace: "{{ namespace }}"
+  tags:
+  - namespace
+
+- name: plume
+  block:
+  - include_tasks: ../k8s_common/configmap.yml
+    vars:
+      configmap_files:
+        .env: "{{ plume_env }}"
+    tags:
+    - configmap
+  - include_tasks: ../k8s_common/service.yml
+    tags:
+    - service
+  - include_tasks: ../k8s_common/deployment.yml
+    tags:
+    - deployment
+  - include_tasks: ../k8s_common/ingress.yml
+    tags:
+    - ingress
+  vars:
+    app: plume
+    target_namespace: "{{ namespace }}"
+    serviceport: 7878
+    targetport: 7878
+    deployment_spec: "{{ plume_deployment_spec }}"
+    ingress_domain: "{{ plume_domain }}"
+  tags:
+  - plume
